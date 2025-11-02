@@ -17,7 +17,6 @@ function Login() {
     senha: false,
 })
 
-
     async function fazerLogin(e) {
         e.preventDefault()
 
@@ -96,8 +95,6 @@ function Login() {
     />
   </div>
 </div>
-
-
     )
 }
 
