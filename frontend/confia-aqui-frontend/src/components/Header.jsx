@@ -36,7 +36,7 @@ function Header() {
                 </ul>
               <div className="border-t border-gray-200">
                 <ul className="py-2 text-red-700 font-semibold">
-                  <li className="block w-full px-4 py-2 hover:bg-red-200 rounded-md cursor-pointer">Sair
+                  <li className="block w-full px-4 py-2 hover:bg-red-200 rounded-md cursor-pointer"><span>Sair</span>
                     <FontAwesomeIcon icon={faArrowRightFromBracket} className="px-1"/>
                   </li>
                 </ul>

@@ -5,6 +5,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/BotaoForm"
 import LinkTexto from "../components/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
+import api from "../services/api.js"
 
 function Login() {
     const navigate = useNavigate()
@@ -33,9 +34,30 @@ function Login() {
             return
         }
         
-        setTimeout(() => {
-            navigate("/home")
-        }, 1500);
+        try {
+          const resposta = await api.post("/auth/login", { email, senha })
+
+          if (resposta.status === 200 && resposta.data.token) {
+          localStorage.setItem("token", resposta.data.token)
+          localStorage.setItem("usuario", JSON.stringify(resposta.data.usuario))
+
+          setMensagem("Login realizado com sucesso!")
+          setTipoMensagem("sucesso")
+
+          setTimeout(() => navigate("/home"), 1500)
+        } else {
+          setMensagem("Erro inesperado ao fazer login.")
+          setTipoMensagem("erro")
+        }
+      } catch (erro) {
+        console.error("Erro ao fazer login:", erro)
+        if (erro.response?.status === 401) {
+          setMensagem("E-mail ou senha incorretos.")
+        } else {
+          setMensagem("Erro ao conectar com o servidor.")
+        }
+        setTipoMensagem("erro")
+      }
     }
 
     return (
