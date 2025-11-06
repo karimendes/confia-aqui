@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useAuth } from "./AuthContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { faBars, faTimes, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
@@ -7,6 +8,7 @@ import { faBars, faTimes, faArrowRightFromBracket } from "@fortawesome/free-soli
 function Header() {
   const [menuAberto, setMenuAberto] = useState(false)
   const [dropDownAberto, setDropDownAberto] = useState(false)
+  const {logout} = useAuth()
 
   return (
     <header className="relative flex items-center justify-between px-4 py-3 bg-white shadow-md z-50">
@@ -36,7 +38,7 @@ function Header() {
                 </ul>
               <div className="border-t border-gray-200">
                 <ul className="py-2 text-red-700 font-semibold">
-                  <li className="block w-full px-4 py-2 hover:bg-red-200 rounded-md cursor-pointer"><span>Sair</span>
+                  <li className="block w-full px-4 py-2 hover:bg-red-200 rounded-md cursor-pointer" onClick={logout}><span>Sair</span>
                     <FontAwesomeIcon icon={faArrowRightFromBracket} className="px-1"/>
                   </li>
                 </ul>

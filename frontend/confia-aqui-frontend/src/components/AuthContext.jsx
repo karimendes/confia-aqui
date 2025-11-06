@@ -19,25 +19,47 @@ export function AuthProvider({ children }) {
   }, [])
 
   const login = async (email, senha) => {
-    const response = await api.post("/auth/login", { email, senha })
-    const { token, user } = response.data
+    try {
+      const response = await api.post("/auth/login", { email, senha })
+      const { token, user } = response.data
 
-    localStorage.setItem("token", token)
-    localStorage.setItem("user", JSON.stringify(user))
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`
-    setUser(user)
+      localStorage.setItem("token", token)
+      localStorage.setItem("user", JSON.stringify(user))
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`
+      setUser(user)
 
-    if(user.role === "ADMIN") {
-      navigate("/admin/home")
-    } else {
-      navigate("/home")
+      if (user.role === "ADMIN") {
+        navigate("/admin/home")
+      } else {
+        navigate("/home")
+      }
+    } catch (error) {
+      console.error("Erro no login:", error)
+      throw error
     }
   }
 
-  const logout = () => {
-    localStorage.clear()
-    setUser(null)
-    navigate("/login")
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token")
+
+      if (token) {
+        await api.post(
+          "/auth/logout",
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      }
+    } catch (error) {
+      console.warn("Erro ao chamar logout no back-end:", error)
+    } finally {
+      localStorage.clear()
+      setUser(null)
+      delete api.defaults.headers.common["Authorization"]
+      navigate("/login")
+    }
   }
 
   return (

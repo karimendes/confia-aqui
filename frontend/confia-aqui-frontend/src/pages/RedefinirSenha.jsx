@@ -1,18 +1,20 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import api from "../services/api.js"
 import Input from "../components/Input"
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
+import { faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/BotaoForm"
 
 function RedefinirSenha() {
     const navigate = useNavigate()
-    const [email, setEmail] = useState("")
+    const [searchParams] = useSearchParams()
+    const token = searchParams.get("token")
+
     const [novaSenha, setNovaSenha] = useState("")
     const [confirmarSenha, setConfirmarSenha] = useState("")
     const [mensagem, setMensagem] = useState("")
     const [tipoMensagem, setTipoMensagem] = useState("")
     const [erros, setErros] = useState({
-    email: false,
     novaSenha: false,
     confirmarSenha: false,
 })
@@ -20,9 +22,8 @@ function RedefinirSenha() {
     async function mudarSenha(e) {
         e.preventDefault()
 
-        let novosErros = { email: false, novaSenha: false, confirmarSenha: false }
+        let novosErros = { novaSenha: false, confirmarSenha: false }
 
-        if (!email) novosErros.email = true
         if (!novaSenha) novosErros.novaSenha = true
         if(!confirmarSenha) novosErros.confirmarSenha = true
 
@@ -34,25 +35,44 @@ function RedefinirSenha() {
             return
         }
 
-        if(!email || !novaSenha || !confirmarSenha) {
+        if(!novaSenha || !confirmarSenha) {
             setMensagem("Campo vazio. Preencha todos os campos.")
             setTipoMensagem("erro")
             return
         }
 
-        setMensagem("Senha alterada com sucesso!")
-        setTipoMensagem("sucesso")
+        try {
+          await api.post("/auth/redefinirSenha", {
+            token: token,
+            senha: novaSenha,
+          })
 
-        setTimeout(() => {
+          setMensagem("Senha alterada com sucesso!")
+          setTipoMensagem("sucesso")
+
+          setTimeout(() => {
             navigate("/login")
-        }, 1500);
+        }, 1500)
+      } catch (error) {
+      console.error(error)
+      if (error.response) {
+        if (error.response.status === 400) {
+          setMensagem("Token inválido ou expirado. Solicite um novo link.")
+        } else {
+          setMensagem("Erro ao redefinir senha. Tente novamente.")
+        }
+      } else {
+        setMensagem("Falha na conexão com o servidor.")
+      }
+      setTipoMensagem("erro")
+      }
     }
 
     return (
         <div className="flex h-screen w-screen">
     <div className="w-full p-6 flex justify-center items-center bg-white">
     <div className="w-full max-w-md">
-      <h1 className="text-2xl mb-4 text-cinza-600 font-bold text-center">Redefinir Senha</h1>
+      <h1 className="text-2xl mb-4 text-cinza-600 font-bold text-center">Redefinir senha</h1>
 
       {mensagem && (
           <div
@@ -67,15 +87,6 @@ function RedefinirSenha() {
         )}
 
       <form onSubmit={mudarSenha} className="flex flex-col gap-3 w-full">
-        <label className="text-sm text-cinza-600">Email:</label>
-        <Input
-          type="email"
-          placeholder="Digite o seu e-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)} icon={faEnvelope}
-          isErro={erros.email}
-        />
-
         <label className="text-sm text-cinza-600">Nova senha:</label>
         <Input
           type="password"
