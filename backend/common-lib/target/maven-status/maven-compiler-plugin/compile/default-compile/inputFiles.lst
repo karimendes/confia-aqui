@@ -1,0 +1,12 @@
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\Common.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\config\CommonSecurityPlaceholder.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\config\JwtUtils.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\config\NoCacheFilter.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\AlterarSenhaDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\AuthResponseDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\ConfirmarSenhaDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\EmailDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\FaqDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\LoginRequest.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\RedefinirSenhaDTO.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\common-lib\src\main\java\br\com\commonlib\dto\UsuarioDTO.java

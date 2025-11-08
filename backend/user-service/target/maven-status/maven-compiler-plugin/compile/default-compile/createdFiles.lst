@@ -1,0 +1,9 @@
+br\com\userservice\repository\UsuarioRepository.class
+br\com\userservice\UserServiceApplication.class
+br\com\userservice\config\DataInitializer.class
+br\com\userservice\config\SecurityConfig.class
+br\com\userservice\controller\UsuarioRestController.class
+br\com\userservice\entity\Usuario.class
+br\com\userservice\service\UsuarioService.class
+br\com\userservice\config\RequestLoggingFilter.class
+br\com\userservice\security\JwtAuthorizationFilter.class
