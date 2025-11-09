@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import api from "../services/api"
+import { loginUser, logoutUser } from "../services/authService"
+import apiAuth from "../services/apiAuth"
 
 export const AuthContext = createContext()
 
@@ -14,25 +15,20 @@ export function AuthProvider({ children }) {
 
     if (storedUser && token) {
       setUser(JSON.parse(storedUser))
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`
+      apiAuth.defaults.headers.common["Authorization"] = `Bearer ${token}`
     }
   }, [])
 
   const login = async (email, senha) => {
     try {
-      const response = await api.post("/auth/login", { email, senha })
-      const { token, user } = response.data
+      const {token, user} = await loginUser(email, senha)
 
       localStorage.setItem("token", token)
       localStorage.setItem("user", JSON.stringify(user))
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`
+      apiAuth.defaults.headers.common["Authorization"] = `Bearer ${token}`
       setUser(user)
 
-      if (user.role === "ADMIN") {
-        navigate("/admin/home")
-      } else {
-        navigate("/home")
-      }
+      navigate(user.role === "ADMIN" ? "admin/home" : "/home") 
     } catch (error) {
       console.error("Erro no login:", error)
       throw error
@@ -41,23 +37,13 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const token = localStorage.getItem("token")
-
-      if (token) {
-        await api.post(
-          "/auth/logout",
-          {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      }
+      await logoutUser()
     } catch (error) {
       console.warn("Erro ao chamar logout no back-end:", error)
     } finally {
       localStorage.clear()
       setUser(null)
-      delete api.defaults.headers.common["Authorization"]
+      delete apiAuth.defaults.headers.common["Authorization"]
       navigate("/login")
     }
   }
