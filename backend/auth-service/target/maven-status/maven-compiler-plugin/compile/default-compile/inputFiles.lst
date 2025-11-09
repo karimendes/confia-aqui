@@ -1,0 +1,11 @@
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\AuthServiceApplication.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\controller\AuthRestController.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\entity\RedefinirSenha.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\repository\RedefinirSenhaRepository.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\security\JwtAuthorizationFilter.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\security\SecurityConfig.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\service\CustomUserDetailsService.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\service\EmailService.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\service\EmailServiceImpl.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\service\RedefinirSenhaService.java
+C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\auth-service\src\main\java\br\com\authservice\service\UserClientService.java
