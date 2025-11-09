@@ -1,8 +1,0 @@
-br\com\faqservice\config\SecurityConfig.class
-br\com\faqservice\entity\Faq.class
-br\com\faqservice\controller\AdminFaqController.class
-br\com\faqservice\controller\FaqController.class
-br\com\faqservice\repository\FaqRepository.class
-br\com\faqservice\service\FaqService.class
-br\com\faqservice\FaqApplication.class
-br\com\faqservice\security\JwtAuthorizationFilter.class
