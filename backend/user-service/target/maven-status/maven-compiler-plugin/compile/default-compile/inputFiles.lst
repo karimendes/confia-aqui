@@ -1,9 +1,0 @@
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\config\DataInitializer.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\config\RequestLoggingFilter.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\config\SecurityConfig.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\controller\UsuarioRestController.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\entity\Usuario.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\repository\UsuarioRepository.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\security\JwtAuthorizationFilter.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\service\UsuarioService.java
-C:\Users\rayss\OneDrive\Projetos\confia-aqui\backend\user-service\src\main\java\br\com\userservice\UserServiceApplication.java
