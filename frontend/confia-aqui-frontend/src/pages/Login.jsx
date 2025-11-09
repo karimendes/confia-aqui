@@ -5,8 +5,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/BotaoForm"
 import LinkTexto from "../components/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
-import api from "../services/api.js"
-
+import { loginUser } from "../services/authService"
 
 function Login() {
     const navigate = useNavigate()
@@ -18,7 +17,6 @@ function Login() {
     email: false,
     senha: false,
 })
-
 
     async function fazerLogin(e) {
         e.preventDefault()
@@ -41,7 +39,7 @@ function Login() {
         }
        
         try {
-          const resposta = await api.post("/auth/login", { email, senha })
+          const resposta = await loginUser(email, senha)
 
 
           if (resposta.status === 200 && resposta.data.token) {
@@ -68,7 +66,6 @@ function Login() {
         setTipoMensagem("erro")
       }
     }
-
 
     return (
        <div className="flex h-screen w-screen flex-col md:flex-row">
@@ -135,6 +132,5 @@ function Login() {
 </div>
     )
 }
-
 
 export default Login

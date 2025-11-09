@@ -1,5 +1,5 @@
 import { useState } from "react"
-import api from "../services/api.js"
+import { esqueciSenha } from "../services/authService.js"
 import Input from "../components/Input"
 import BotaoForm from "../components/BotaoForm.jsx"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
@@ -26,7 +26,7 @@ function EsqueceuSenha(){
 
         try {
             setCarregando(true)
-            await api.post("/auth/esqueciSenha", {email})
+            await esqueciSenha(email)
 
             setMensagem("Enviamos um link para o seu email. Verifique sua caixa de entrada.")
             setTipoMensagem("sucesso")

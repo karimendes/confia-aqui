@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import api from "../services/api.js"
+import { redefinirSenha } from "../services/authService"
 import Input from "../components/Input"
 import { faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/BotaoForm"
@@ -42,10 +42,7 @@ function RedefinirSenha() {
         }
 
         try {
-          await api.post("/auth/redefinirSenha", {
-            token: token,
-            senha: novaSenha,
-          })
+          await redefinirSenha(token, novaSenha)
 
           setMensagem("Senha alterada com sucesso!")
           setTipoMensagem("sucesso")

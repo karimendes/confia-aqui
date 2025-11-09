@@ -5,7 +5,7 @@ import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/BotaoForm"
 import LinkTexto from "../components/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
-import api from "../services/api.js"
+import { cadastrarUsuario } from "../services/authService"
 
 function Cadastro() {
   const navigate = useNavigate()
@@ -33,12 +33,8 @@ function Cadastro() {
     }
 
     try {
-      const resposta = await api.post("/auth/cadastrarUsuario", {
-        nome,
-        email,
-        senha,
-      })
-
+      const resposta = await cadastrarUsuario(nome, email, senha)
+      
       if (resposta.status === 201 || resposta.status === 200) {
         setMensagem("Cadastro realizado com sucesso!")
         setTipoMensagem("sucesso")
