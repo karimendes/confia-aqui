@@ -1,6 +1,7 @@
 import Header from "../components/Header"
 import Hero from "../components/Hero"
 import CardTeste from "../components/CardTeste"
+import FAQ from "../components/FAQ"
 
 function Home() {
   return (
@@ -8,6 +9,7 @@ function Home() {
       <Header />
         <Hero/>
         <CardTeste />
+        <FAQ />
     </div>
   )
 }
