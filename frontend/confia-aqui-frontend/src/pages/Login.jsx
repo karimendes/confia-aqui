@@ -41,30 +41,28 @@ function Login() {
         try {
           const resposta = await loginUser(email, senha)
 
+          if (resposta && resposta.token && resposta.user) {
+            localStorage.setItem("token", resposta.token)
+            localStorage.setItem("user", JSON.stringify(resposta.user))
 
-          if (resposta.status === 200 && resposta.data.token) {
-          localStorage.setItem("token", resposta.data.token)
-          localStorage.setItem("usuario", JSON.stringify(resposta.data.usuario))
+            setMensagem("Login realizado com sucesso!")
+            setTipoMensagem("sucesso")
 
-
-          setMensagem("Login realizado com sucesso!")
-          setTipoMensagem("sucesso")
-
-
-          setTimeout(() => navigate("/home"), 1500)
-        } else {
-          setMensagem("Erro inesperado ao fazer login.")
+            const role = resposta.user.role ? resposta.user.role.toUpperCase() : "USER"
+            setTimeout(() => navigate(role === "ADMIN" ? "/admin/home" : "/home"), 1500)
+          } else {
+            setMensagem("Erro inesperado ao fazer login.")
+            setTipoMensagem("erro")
+          }
+        } catch (erro) {
+          console.error("Erro ao fazer login:", erro)
+          if (erro.response?.status === 401) {
+            setMensagem("E-mail ou senha incorretos.")
+          } else {
+            setMensagem("Erro ao conectar com o servidor.")
+          }
           setTipoMensagem("erro")
         }
-      } catch (erro) {
-        console.error("Erro ao fazer login:", erro)
-        if (erro.response?.status === 401) {
-          setMensagem("E-mail ou senha incorretos.")
-        } else {
-          setMensagem("Erro ao conectar com o servidor.")
-        }
-        setTipoMensagem("erro")
-      }
     }
 
     return (
