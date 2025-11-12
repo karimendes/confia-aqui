@@ -25,6 +25,9 @@ public void salvar(Usuario usuario) {
     }
 
     usuario.setSenha(encoder.encode(usuario.getSenha()));
+    if (usuario.getRole() == null || usuario.getRole().isBlank()) {
+        usuario.setRole("ROLE_USER");
+    }
 
     repository.save(usuario);
 }
