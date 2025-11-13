@@ -1,15 +1,15 @@
 import apiUser from "./apiUser";
 
 export const getPerfil = () => {
-    return apiUser.get("/user/me")
+    return apiUser.get("/user/usuarioLogado")
 }
 
 export const alterarEmail = (novoEmail) => {
-    return apiUser.put("/user/alterarEmail", {email: novoEmail})
+    return apiUser.patch("/user/alterarEmail", {email: novoEmail})
 }
 
 export const alterarSenha = (novaSenha) => {
-    return apiUser.put("/user/alterarSenha", {senha: novaSenha})
+    return apiUser.patch("/user/alterarSenha", {senha: novaSenha})
 }
 
 export const excluirUser = () => {
