@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-function Input({type = "text", placeholder, value, onChange, icon, isErro }){
+function Input({type = "text", placeholder, value, onChange, icon, isErro, disabled }){
     return (
         <div className="relative w-full">
             <FontAwesomeIcon icon={icon} className="absolute left-3 top-1/2 -translate-y-1/2 text-cinza-500"/>
@@ -8,7 +8,7 @@ function Input({type = "text", placeholder, value, onChange, icon, isErro }){
     ${isErro
       ? "border-red-500 bg-red-50 focus:ring-red-300"
       : "border-cinza-500 focus-visible:ring-azul"
-    }`} value={value} onChange={onChange} required />
+    }`} value={value} onChange={onChange} required disabled={disabled}/>
         </div>
     )
 }
