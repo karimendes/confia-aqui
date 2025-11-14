@@ -30,5 +30,9 @@ export const esqueciSenha = async (email) => {
 }
 
 export const redefinirSenha = async (token, novaSenha) => {
-    return await apiAuth.post("/auth/redefinirSenha", {token: token, senha: novaSenha,})
+    return await apiAuth.post("/auth/redefinirSenha", {
+        token: token,
+        novaSenha: novaSenha,
+        confirmarSenha: novaSenha
+    })
 }
