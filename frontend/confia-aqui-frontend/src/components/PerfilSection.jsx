@@ -3,7 +3,8 @@ import { getPerfil, alterarEmail, alterarSenha } from "../services/userService"
 import Input from "../components/Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faSave, faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons"
-
+import MessageBox from "./MessageBox"
+import LinkTexto from "../components/LinkTexto"
 
 function PerfilSection(){
     const [dados, setDados] = useState({
@@ -11,7 +12,14 @@ function PerfilSection(){
         email: "",
       })
       const [novoEmail, setNovoEmail] = useState("")
+      const [senhaAtual, setSenhaAtual] = useState("")
       const [novaSenha, setNovaSenha] = useState("")
+      const [confirmarSenha, setConfirmarSenha] = useState("")
+      const [erros, setErros] = useState({
+        senhaAtual: "",
+        novaSenha: "",
+        confirmarSenha: ""
+      })
       const [editandoEmail, setEditandoEmail] = useState(false)
       const [editandoSenha, setEditandoSenha] = useState(false)
       const [mensagem, setMensagem] = useState("")
@@ -51,10 +59,33 @@ function PerfilSection(){
       }
     
       const salvarSenha = async () => {
+        const novosErros = {
+          senhaAtual: "",
+          novaSenha: "",
+          confirmarSenha: ""
+        }
+
+        if (!senhaAtual) novosErros.senhaAtual = "Digite sua senha atual."
+        if (!novaSenha) novosErros.novaSenha = "Digite sua nova senha."
+        if (novaSenha.length <6) novosErros.novaSenha = "A senha deve ter no mínimo 6 caracteres."
+        if (confirmarSenha !== novaSenha) novosErros.confirmarSenha = "As senhas não são iguais. Digite novamente."
+
+        if (novosErros.senhaAtual || novosErros.novaSenha || novosErros.confirmarSenha) {
+          setErros(novosErros)
+          return
+        }
+
         try {
-          await alterarSenha(novaSenha)
+          await alterarSenha({
+            senhaAtual: senhaAtual,
+            novaSenha: novaSenha,
+            confirmarSenha: confirmarSenha
+          })
+
           setEditandoSenha(false)
+          setSenhaAtual("")
           setNovaSenha("")
+          setConfirmarSenha("")
           setMensagem("Senha atualizada com sucesso!")
           setTipoMensagem("sucesso")
         } catch (error) {
@@ -64,21 +95,13 @@ function PerfilSection(){
         }
       }
     return (
-    <main className="flex justify-center items-center px-4 w-screen bg-gray-50">
-      <div className="bg-white rounded-2xl shadow-xl w-screen p-10 lg:mt-10">
+    <main className="flex justify-center items-center px-4 pt-16 w-screen bg-gray-50">
+      <div className="bg-white rounded-2xl shadow-xl w-screen p-10 mt-2 lg:mt-8">
         <h2 className="text-2xl font-bold text-cinza-600 mb-8">Meu Perfil</h2>
 
         {mensagem && (
-          <div
-            className={`mb-6 px-4 py-3 rounded-lg text-sm text-center font-medium ${
-              tipoMensagem === "erro"
-                ? "bg-red-100 text-red-700 border border-red-300"
-                : "bg-green-100 text-green-700 border border-green-300"
-            }`}
-          >
-            {mensagem}
-          </div>
-        )}
+          <MessageBox type={tipoMensagem} mensagem={mensagem} />
+    )}
 
         <div className="mb-6">
           <label className="text-base text-cinza-600 block mb-2">Nome:</label>
@@ -113,7 +136,7 @@ function PerfilSection(){
           />
         </div>
 
-        <div>
+        <div className="mt-6">
           <div className="flex justify-between items-center mb-2">
             <label className="text-base text-cinza-600">Senha:</label>
             <button
@@ -124,17 +147,60 @@ function PerfilSection(){
               {editandoSenha ? "Salvar" : "Editar"}
             </button>
           </div>
+
+          <div className="mb-2">
           <Input
             type="password"
-            name="senha"
-            value={editandoSenha ? novaSenha : ""}
-            onChange={(e) => setNovaSenha(e.target.value)}
+            name="senhaAtual"
+            value={editandoSenha ? senhaAtual : ""}
+            onChange={(e) => {
+            setSenhaAtual(e.target.value)
+            setErros((prev) => ({ ...prev, senhaAtual: "" }))
+          }}
             icon={faLock}
             disabled={!editandoSenha}
-            placeholder={editandoSenha ? "Digite sua nova senha" : "********"}
+            placeholder={editandoSenha ? "Digite sua senha atual" : "********"}
+            isErro={!!erros.senhaAtual}
           />
+          {erros.senhaAtual && <p className="text-red-500 text-sm">{erros.senhaAtual}</p>}
+          </div>
+
+          <div className="mb-2">
+          <Input
+            type="password"
+            name="novaSenha"
+            value={editandoSenha ? novaSenha : ""}
+            onChange={(e) => {
+            setNovaSenha(e.target.value)
+            setErros((prev) => ({ ...prev, novaSenha: "" }))
+          }}
+            icon={faLock}
+            disabled={!editandoSenha}
+            placeholder={editandoSenha ? "Digite a nova senha" : "********"}
+            isErro={!!erros.novaSenha}
+          />
+          {erros.novaSenha && <p className="text-red-500 text-sm">{erros.novaSenha}</p>}
+          </div>
+
+          <div className="mb-2">
+          <Input
+            type="password"
+            name="confirmarSenha"
+            value={editandoSenha ? confirmarSenha : ""}
+            onChange={(e) => {
+            setConfirmarSenha(e.target.value)
+            setErros((prev) => ({ ...prev, confirmarSenha: "" }))
+          }}
+            icon={faLock}
+            disabled={!editandoSenha}
+            placeholder={editandoSenha ? "Confirme a nova senha" : "********"}
+            isErro={!!erros.confirmarSenha}
+          />
+            {erros.confirmarSenha && <p className="text-red-500 text-sm">{erros.confirmarSenha}</p>}
         </div>
-      </div>
+        </div>
+        <LinkTexto to={"/esqueci-senha"} text="Esqueceu a senha?"/>
+        </div>
     </main>
     )
 }

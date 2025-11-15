@@ -11,7 +11,7 @@ function Header() {
   const {logout} = useAuth()
 
   return (
-    <header className="relative flex items-center justify-between px-4 py-3 bg-white shadow-md z-50">
+    <header className="fixed top-0 left-0 w-full flex items-center justify-between px-4 py-3 bg-white shadow-md z-50">
       <button
         className="md:hidden text-azul flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition"
         onClick={() => setMenuAberto(!menuAberto)}
