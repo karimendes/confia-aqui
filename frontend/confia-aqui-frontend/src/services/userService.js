@@ -8,10 +8,19 @@ export const alterarEmail = (novoEmail) => {
     return apiUser.patch("/user/alterarEmail", {email: novoEmail})
 }
 
-export const alterarSenha = (novaSenha) => {
-    return apiUser.patch("/user/alterarSenha", {senha: novaSenha})
+
+export const alterarSenha = ({ senhaAtual, novaSenha, confirmarSenha }) => {
+    return apiUser.patch("/user/alterarSenha", {
+        senhaAtual,
+        novaSenha,
+        confirmarSenha
+    })
 }
 
-export const excluirUser = () => {
-    return apiUser.delete("/user/deletaUsuario")
-}
+export const excluirUser = (senha) => {
+    return apiUser.delete("/user/deletaUsuario", {
+        data: {
+            senha: senha
+        }
+    });
+};

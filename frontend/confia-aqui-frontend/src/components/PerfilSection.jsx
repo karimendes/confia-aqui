@@ -78,7 +78,8 @@ function PerfilSection(){
         try {
           await alterarSenha({
             senhaAtual: senhaAtual,
-            novaSenha: novaSenha
+            novaSenha: novaSenha,
+            confirmarSenha: confirmarSenha
           })
 
           setEditandoSenha(false)
