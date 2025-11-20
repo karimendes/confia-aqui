@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="../../docs/Logo.png" width="150" alt="Logo" />
+  <h1>Documentação – Frontend</h1>
+</div>
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
