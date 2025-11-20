@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.commonlib.dto.FaqDTO;
 import br.com.faqservice.service.FaqService;
 import jakarta.validation.Valid;
@@ -36,15 +34,17 @@ public class AdminFaqController {
         return ResponseEntity.ok(all);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> buscarPorId(@PathVariable("id") String idStr) {
-        Long id = parseId(idStr);
-        if (id == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "ID inválido"));
-        FaqDTO dto = faqService.findById(id);
-        if (dto == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "Pergunta não encontrada"));
-        return ResponseEntity.ok(dto);
+@GetMapping("/{id}")
+@PreAuthorize("hasRole('ADMIN')")
+public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+    FaqDTO dto = faqService.findById(id);
+    if (dto == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(Map.of("message", "Pergunta não encontrada"));
     }
+    return ResponseEntity.ok(dto);
+}
+
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -57,51 +57,28 @@ public class AdminFaqController {
         }
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> atualizar(@PathVariable("id") String idStr, @RequestBody String body) {
-        Long id = parseId(idStr);
-        if (id == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "ID inválido"));
-        try {
-            ObjectMapper om = new ObjectMapper();
-            FaqDTO dto;
-            try {
-                dto = om.readValue(body, FaqDTO.class);
-            } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                        .body(Map.of("message", "Content-Type inválido ou corpo não é JSON. Use application/json com {\"pergunta\":..., \"resposta\":...}"));
-            }
-            FaqDTO updated = faqService.atualizarFaq(id, dto);
-            return ResponseEntity.ok(updated);
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", ex.getMessage()));
-        }
+@PutMapping("/{id}")
+@PreAuthorize("hasRole('ADMIN')")
+public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody FaqDTO dto) {
+    try {
+        FaqDTO updated = faqService.atualizarFaq(id, dto);
+        return ResponseEntity.ok(updated);
+    } catch (IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(Map.of("message", ex.getMessage()));
     }
+}
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deletar(@PathVariable("id") String idStr) {
-        Long id = parseId(idStr);
-        if (id == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "ID inválido"));
-        try {
-            faqService.deletarFaq(id);
-            return ResponseEntity.ok(Map.of("message", "Pergunta removida com sucesso"));
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", ex.getMessage()));
-        } catch (RuntimeException ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Erro ao remover pergunta"));
-        }
-    }
 
-    // permite id como "1" ou "{1}", removendo colchetes/espaços
-    private Long parseId(String idStr) {
-        if (idStr == null) return null;
-        String cleaned = idStr.replaceAll("[{}\\s]", "");
-        if (cleaned.isBlank()) return null;
-        try {
-            return Long.valueOf(cleaned);
-        } catch (NumberFormatException ex) {
-            return null;
-        }
+@DeleteMapping("/{id}")
+@PreAuthorize("hasRole('ADMIN')")
+public ResponseEntity<?> deletar(@PathVariable Long id) {
+    try {
+        faqService.deletarFaq(id);
+        return ResponseEntity.ok(Map.of("message", "Pergunta removida com sucesso"));
+    } catch (IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", ex.getMessage()));
     }
+}
+
 }
