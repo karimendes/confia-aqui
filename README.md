@@ -130,12 +130,13 @@ Para executar o projeto, siga as instruções detalhadas nos READMEs de cada par
 > ⚠️**Atenção**: Não siga as instruções do Postman. Após iniciar o backend e o frontend, o sistema estará pronto para testes com o frontend.
 
 ## 📝 Contribuições
-| Nome             | Função                                               |
-|------------------|------------------------------------------------------|
-| Beatriz Nagae    | Backend e Frontend                                   |
-| Davi Rocha       | Banco de dados e Frontend                            |
-| Fábio Gomes      | Banco de dados e Frontend                            |
-| Karine Ferreira  | Frontend, Integração e Documentação frontend         |
-| Rafael Carvalho  | Frontend                                             |
-| Rayssa Andrade   | Backend, Integração e Documentação do Backend e Geral|
-| Rhaissa Santos   | Frontend                                             |
+| Nome             | Função                                                        |
+|------------------|---------------------------------------------------------------|
+| Beatriz Nagae    | Backend e Frontend                                            |
+| Davi Rocha       | Banco de dados e Frontend                                     |
+| Fábio Gomes      | Banco de dados e Frontend                                     |
+| Karine Ferreira  | Frontend, Integração e Documentação frontend (README)         |
+| Rafael Carvalho  | Frontend                                                      |
+| Rayssa Andrade   | Backend, Integração e Documentação do Backend e Geral (README)|
+| Rhaissa Santos   | Frontend                                                      |
+
