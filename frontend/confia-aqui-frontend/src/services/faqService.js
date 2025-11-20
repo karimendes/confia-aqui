@@ -2,7 +2,7 @@ import apiFaq from "./apiFaq";
 
 export const getAllFaqs = async () => {
   try {
-    const response = await apiFaq.get("/admin/faq");
+    const response = await apiFaq.get("/faq");
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar FAQs:", error);
