@@ -4,7 +4,7 @@ import EsqueceuSenha from "./pages/EsqueceuSenha"
 import RedefinirSenha from "./pages/RedefinirSenha"
 import Cadastro from "./pages/Cadastro"
 import Home from "./pages/Home"
-//import HomeAdmin from "./pages/HomeAdmin"//
+import HomeAdmin from "./pages/HomeAdmin"
 // import Teste from "./pages/Teste" // ainda não existe
 import Perfil from "./pages/Perfil"
 import "./App.css"
@@ -23,7 +23,7 @@ function App() {
           <Route path="/redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/home" element={<Home />} />
-         {/* <Route path="/admin/home" element={<HomeAdmin />} />*/}
+         <Route path="/admin/home" element={<HomeAdmin />} />
           {/* <Route path="/teste" element={<Teste />} /> */}
           <Route path="/perfil" element={<Perfil />} />
         </Routes>
