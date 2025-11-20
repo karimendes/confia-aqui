@@ -20,7 +20,7 @@
 		<module>user-service</module>
 		<module>auth-service</module>
 		<module>faq-service</module>
-		<module>gamefication</module>
+		<module>game-service</module>
 	</modules>
 	<url/>
 	<licenses>

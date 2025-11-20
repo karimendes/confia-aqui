@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.confia-aqui</groupId>
-	<artifactId>gamefication</artifactId>
+	<artifactId>game-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gamefication</name>
+	<name>game-service</name>
 	<description>Um site para comunicar sobre o Golpe do Presente</description>
 	<url/>
 	<licenses>
