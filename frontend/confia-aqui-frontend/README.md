@@ -134,9 +134,9 @@ http://localhost:5173
 
 | Nome           | O que fez                                                                                                           |
 |----------------|---------------------------------------------------------------------------------------------------------------------|
-| Karine Ferreira | Criação do frontend, prototipação no Figma, desenvolvimento das telas: Login, Cadastro, Esqueceu a Senha, Redefinir Senha, Home do usuário, Perfil do Usuário e Teste, e documentação frontend (README). |
 | Beatriz Nagae | Prototipação no Figma, desenvolvimento da tela: Home do Admin. |
-| Rafael Carvalho | Desenvolvimento do componente ChatBot. |
-| Rhaissa Santos | Desenvolvimento dos componentes ChatBot e Hero da página do usuário. |
 | Davi Rocha | Desenvolvimento do componente FAQ. |
 | Fábio Gomes | Desenvolvimento do componente FAQ. |
+| Karine Ferreira | Criação do frontend, prototipação no Figma, desenvolvimento das telas: Login, Cadastro, Esqueceu a Senha, Redefinir Senha, Home do Usuário, Perfil do Usuário e Teste, e documentação frontend (README). |
+| Rafael Carvalho | Desenvolvimento do componente ChatBot. |
+| Rhaissa Santos | Desenvolvimento dos componentes ChatBot e Hero da Home do Usuário. |
