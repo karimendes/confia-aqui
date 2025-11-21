@@ -14,6 +14,7 @@ function Login() {
     const [senha, setSenha] = useState("")
     const [mensagem, setMensagem] = useState("")
     const [tipoMensagem, setTipoMensagem] = useState("")
+    const [loading, setLoading] = useState(false)
     const [erros, setErros] = useState({
     email: false,
     senha: false,
@@ -21,21 +22,23 @@ function Login() {
 
     async function fazerLogin(e) {
         e.preventDefault()
+        if (loading) return
 
+        setMensagem("")
+        setTipoMensagem("")
+        setLoading(true)
 
         let novosErros = { email: false, senha: false }
-
 
         if (!email) novosErros.email = true
         if (!senha) novosErros.senha = true
 
-
         setErros(novosErros)
-
 
         if(!email || !senha) {
             setMensagem("Campo vazio. Preencha todos os campos.")
             setTipoMensagem("erro")
+            setLoading(false)
             return
         }
        
@@ -63,6 +66,8 @@ function Login() {
             setMensagem("Erro ao conectar com o servidor.")
           }
           setTipoMensagem("erro")
+        } finally {
+          setLoading(false)
         }
     }
 

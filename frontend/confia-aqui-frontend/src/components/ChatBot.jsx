@@ -12,18 +12,15 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const modelRef = useRef(null);
 
-  // Carrega histórico salvo
   useEffect(() => {
     const saved = sessionStorage.getItem("chatHistory");
     if (saved) setChatHistory(JSON.parse(saved));
   }, []);
 
-  // Salva histórico
   useEffect(() => {
     sessionStorage.setItem("chatHistory", JSON.stringify(chatHistory));
   }, [chatHistory]);
 
-  // Inicia Gemini
   useEffect(() => {
     try {
       const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
@@ -59,10 +56,8 @@ const ChatBot = () => {
     }
   };
 
-  //  Toda vez que o chat for fechado → limpa as mensagens
   const handleToggle = () => {
     if (open) {
-      // Está aberto → e o usuário vai fechar agora
       setChatHistory([]);
       sessionStorage.removeItem("chatHistory");
     }
@@ -72,15 +67,13 @@ const ChatBot = () => {
   return (
     <div className="flex flex-col items-end">
 
-      {/* Botão flutuante */}
       <button
         onClick={handleToggle}
-        className="w-14 h-14 rounded-full bg-azul text-white shadow-lg flex items-center justify-center hover:opacity-90 transition-all"
+        className="w-14 h-14 rounded-full bg-azul text-white shadow-lg flex items-center justify-center mb-2 hover:opacity-90 transition-all"
       >
         <FontAwesomeIcon icon={faCommentDots} className="text-2xl" />
       </button>
 
-      {/* Janela do chat */}
       {open && (
         <div className="mt-3 bg-white border rounded-2xl shadow-xl p-4 w-80 md:w-96 h-[480px] flex flex-col">
 
@@ -93,7 +86,6 @@ const ChatBot = () => {
             <Loading isLoading={isLoading} />
           </div>
 
-          {/* Área de input */}
           <div className="flex items-center gap-2">
             <input
               type="text"

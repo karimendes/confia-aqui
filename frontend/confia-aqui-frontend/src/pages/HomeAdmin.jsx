@@ -5,15 +5,25 @@ import { useGerenciarFaq } from "../hooks/gerenciarFaq"
 
 function HomeAdmin() {
     const { faqs, loading, error, fetchFaqs, addFaq, editFaq, removeFaq } = useGerenciarFaq()
+
     const [showModal, setShowModal] = useState(false)
     const [editingId, setEditingId] = useState(null)
     const [formData, setFormData] = useState({ pergunta: "", resposta: "" })
-    const [formError, setFormError] = useState("")
+
     const [mensagem, setMensagem] = useState("")
     const [tipoMensagem, setTipoMensagem] = useState("")
 
     useEffect(() => {
-    fetchFaqs()
+    const carregar = async () => {
+        try {
+            await fetchFaqs()
+        } catch (err) {
+            setMensagem("Erro ao conectar com o servidor. Tente novamente.")
+            setTipoMensagem("erro")
+        }
+    }
+
+    carregar()
 }, [])
 
     const handleOpenModal = (faq = null) => {
@@ -24,7 +34,8 @@ function HomeAdmin() {
             setEditingId(null)
             setFormData({ pergunta: "", resposta: "" })
         }
-        setFormError("")
+
+        setMensagem("")
         setShowModal(true)
     }
 
@@ -32,7 +43,7 @@ function HomeAdmin() {
         setShowModal(false)
         setEditingId(null)
         setFormData({ pergunta: "", resposta: "" })
-        setFormError("")
+        setMensagem("")
     }
 
     const handleInputChange = (e) => {
@@ -42,10 +53,11 @@ function HomeAdmin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setFormError("")
+        setMensagem("")
 
         if (!formData.pergunta.trim() || !formData.resposta.trim()) {
-            setFormError("Pergunta e resposta são obrigatórias")
+            setMensagem("Pergunta e resposta são obrigatórias")
+            setTipoMensagem("erro")
             return
         }
 
@@ -59,35 +71,35 @@ function HomeAdmin() {
                 setMensagem("FAQ criada com sucesso!")
                 setTipoMensagem("sucesso")
             }
+
             handleCloseModal()
+
         } catch (err) {
-            setFormError(err.message || "Erro ao salvar FAQ.")
-            setMensagem("Erro ao salvar FAQ.")
+            setMensagem("Erro ao criar FAQ. Tente novamente.")
             setTipoMensagem("erro")
         }
     }
 
     const handleDelete = async (id) => {
-            try {
-                await removeFaq(id)
-                setMensagem("FAQ deletada com sucesso!")
-                setTipoMensagem("sucesso")
-            } catch (err) {
-                setMensagem("Erro ao deletar FAQ.")
-                setTipoMensagem("erro")
-            }
+        try {
+            await removeFaq(id)
+            setMensagem("FAQ deletada com sucesso!")
+            setTipoMensagem("sucesso")
+        } catch (err) {
+            setMensagem("Erro ao deletar FAQ.")
+            setTipoMensagem("erro")
         }
+    }
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
             <Header />
+
             <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8 pt-16">
 
-              {mensagem && (
-          <MessageBox type={tipoMensagem} mensagem={mensagem} />
-    )}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold text-cinza-600">Gerenciar FAQs</h1>
+
                     <button
                         onClick={() => handleOpenModal()}
                         className="bg-azul text-white px-6 py-2 rounded-lg hover:bg-azul/90 transition font-semibold"
@@ -96,10 +108,8 @@ function HomeAdmin() {
                     </button>
                 </div>
 
-                {error && (
-                    <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
-                        {error}
-                    </div>
+                {mensagem && !showModal && (
+                    <MessageBox type={tipoMensagem} mensagem={mensagem} />
                 )}
 
                 {loading && (
@@ -126,6 +136,7 @@ function HomeAdmin() {
                                         <h3 className="text-lg font-bold text-azul mb-2">{faq.pergunta}</h3>
                                         <p className="text-cinza-500">{faq.resposta}</p>
                                     </div>
+
                                     <div className="flex gap-2 flex-shrink-0">
                                         <button
                                             onClick={() => handleOpenModal(faq)}
@@ -133,6 +144,7 @@ function HomeAdmin() {
                                         >
                                             Editar
                                         </button>
+
                                         <button
                                             onClick={() => handleDelete(faq.id)}
                                             className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition text-sm font-semibold"
@@ -147,19 +159,19 @@ function HomeAdmin() {
                 )}
             </main>
 
-            {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6">
+
+                        {mensagem && (
+                            <div className="mb-4">
+                                <MessageBox type={tipoMensagem} mensagem={mensagem} />
+                            </div>
+                        )}
+
                         <h2 className="text-2xl font-bold text-cinza-600 mb-4">
                             {editingId ? "Editar FAQ" : "Nova FAQ"}
                         </h2>
-
-                        {formError && (
-                            <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
-                                {formError}
-                            </div>
-                        )}
 
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
@@ -198,12 +210,12 @@ function HomeAdmin() {
                                 >
                                     Cancelar
                                 </button>
+
                                 <button
                                     type="submit"
-                                    disabled={loading}
-                                    className="px-6 py-2 bg-azul text-white rounded-lg hover:bg-azul/90 transition font-semibold disabled:opacity-50"
+                                    className="px-6 py-2 bg-azul text-white rounded-lg hover:bg-azul/90 transition font-semibold"
                                 >
-                                    {loading ? "Salvando..." : editingId ? "Atualizar" : "Criar"}
+                                    {editingId ? "Atualizar" : "Criar"}
                                 </button>
                             </div>
                         </form>

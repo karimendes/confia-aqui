@@ -90,6 +90,12 @@ function PerfilSection(){
           setTipoMensagem("sucesso")
         } catch (error) {
           console.error("Erro ao atualizar senha:", error)
+          if (error.response?.status === 401 || error.response?.data?.mensagem?.includes("atual")) {
+            setErros((prev) => ({ ...prev, senhaAtual: "Senha atual incorreta." }))
+            setMensagem("A senha atual está incorreta.")
+            setTipoMensagem("erro")
+            return
+        }
           setMensagem("Erro ao atualizar senha. Tente novamente.")
           setTipoMensagem("erro")
         }
