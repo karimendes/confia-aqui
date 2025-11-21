@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="../docs/Logo.png" width="150" alt="Logo" />
+  <img src="../../docs/Logo.png" width="150" alt="Logo" />
   <h1>Documentação – Frontend</h1>
 </div>
 
