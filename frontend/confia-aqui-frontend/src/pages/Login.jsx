@@ -24,10 +24,6 @@ function Login() {
         e.preventDefault()
         if (loading) return
 
-        setMensagem("")
-        setTipoMensagem("")
-        setLoading(true)
-
         let novosErros = { email: false, senha: false }
 
         if (!email) novosErros.email = true
@@ -41,6 +37,8 @@ function Login() {
             setLoading(false)
             return
         }
+
+        setLoading(true)
        
         try {
           const resposta = await loginUser(email, senha)
