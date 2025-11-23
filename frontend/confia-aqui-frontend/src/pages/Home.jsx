@@ -6,7 +6,7 @@ import ChatBot from "../components/chatbot/ChatBot";
 
 function Home() {
   return (
-    <div className="flex flex-col min-h-screen relative bg-gray-200">
+    <div className="flex flex-col min-h-screen relative">
       <Header />
       <Hero />
       <CardTeste />
