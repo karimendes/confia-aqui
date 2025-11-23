@@ -42,21 +42,9 @@ function Login() {
         }
        
         try {
-          const resposta = await loginUser(email, senha)
-
-          if (resposta && resposta.token && resposta.user) {
-            localStorage.setItem("token", resposta.token)
-            localStorage.setItem("user", JSON.stringify(resposta.user))
-
-            setMensagem("Login realizado com sucesso!")
-            setTipoMensagem("sucesso")
-
-            const role = resposta.user.role ? resposta.user.role.toUpperCase() : "USER"
-            setTimeout(() => navigate(role === "ADMIN" ? "/admin/home" : "/home"), 3000)
-          } else {
-            setMensagem("Erro inesperado ao fazer login.")
-            setTipoMensagem("erro")
-          }
+          await login(email, senha)
+          setMensagem("Login realizado com sucesso!")
+          setTipoMensagem("sucesso")
         } catch (erro) {
           console.error("Erro ao fazer login:", erro)
           if (erro.response?.status === 401) {
