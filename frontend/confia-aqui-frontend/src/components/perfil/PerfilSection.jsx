@@ -92,7 +92,7 @@ function PerfilSection(){
   } catch (error) {
     console.error("Erro ao atualizar senha:", error)
 
-    const msg = error.response?.data?.mensagem?.toLowerCase() || ""
+    const msg = error.response?.data?.message?.toLowerCase() || ""
 
     if (msg.includes("atual") || msg.includes("incorreta") || error.response?.status === 401) {
       setErros(prev => ({ ...prev, senhaAtual: "Senha atual incorreta." }))
