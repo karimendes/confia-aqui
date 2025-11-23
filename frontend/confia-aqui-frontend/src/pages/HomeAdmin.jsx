@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import Header from "../components/Header"
-import MessageBox from "../components/MessageBox"
+import Header from "../components/ui/Header"
+import MessageBox from "../components/ui/MessageBox"
 import { useGerenciarFaq } from "../hooks/gerenciarFaq"
 
 function HomeAdmin() {

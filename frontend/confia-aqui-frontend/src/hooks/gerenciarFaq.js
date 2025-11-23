@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react"
-import { getAllFaqs, createFaq, updateFaq, deleteFaq } from "../services/faqService"
+import { getAllFaqs, createFaq, updateFaq, deleteFaq } from "../services/faq/faqService"
 
 export function useGerenciarFaq() {
     const [faqs, setFaqs] = useState([])

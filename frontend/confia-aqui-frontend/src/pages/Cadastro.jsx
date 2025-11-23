@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Input from "../components/Input"
+import Input from "../components/ui/Input"
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
-import BotaoForm from "../components/BotaoForm"
-import LinkTexto from "../components/LinkTexto"
+import BotaoForm from "../components/ui/BotaoForm"
+import LinkTexto from "../components/ui/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
-import MessageBox from "../components/MessageBox"
-import { cadastrarUsuario } from "../services/authService"
+import MessageBox from "../components/ui/MessageBox"
+import { cadastrarUsuario } from "../services/auth/authService"
 
 function Cadastro() {
   const navigate = useNavigate()
