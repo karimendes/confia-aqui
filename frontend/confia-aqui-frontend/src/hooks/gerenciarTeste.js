@@ -20,7 +20,7 @@ export function useGerenciarTeste() {
 
         const criado = await criarQuiz();
 
-        console.log("criado =", criado)
+        console.log("criado =", criado); // <<< AQUI — funciona
 
         setQuizId(criado.id);
 
