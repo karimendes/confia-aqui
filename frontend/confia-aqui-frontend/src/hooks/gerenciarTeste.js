@@ -15,20 +15,23 @@ export function useGerenciarTeste() {
     const [carregando, setCarregando] = useState(false);
 
     async function iniciar() {
-        try {
-            setCarregando(true);
+    try {
+        setCarregando(true);
 
-            const criado = await criarQuiz();
-            setQuizId(criado.id);
+        const criado = await criarQuiz();
 
-            const data = await getPerguntas(criado.id);
-            setPerguntas(data);
+        console.log("criado =", criado); // <<< AQUI — funciona
 
-            setIniciado(true);
-        } finally {
-            setCarregando(false);
-        }
+        setQuizId(criado.id);
+
+        const data = await getPerguntas(criado.id);
+        setPerguntas(data);
+
+        setIniciado(true);
+    } finally {
+        setCarregando(false);
     }
+}
 
     async function finalizarQuiz() {
         const resp = await submitQuiz(quizId, respostas);
