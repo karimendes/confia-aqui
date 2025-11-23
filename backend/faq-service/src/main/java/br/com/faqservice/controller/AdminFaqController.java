@@ -34,16 +34,16 @@ public class AdminFaqController {
         return ResponseEntity.ok(all);
     }
 
-@GetMapping("/{id}")
-@PreAuthorize("hasRole('ADMIN')")
-public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
     FaqDTO dto = faqService.findById(id);
     if (dto == null) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(Map.of("message", "Pergunta não encontrada"));
     }
     return ResponseEntity.ok(dto);
-}
+    }
 
 
     @PostMapping
@@ -57,9 +57,9 @@ public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
         }
     }
 
-@PutMapping("/{id}")
-@PreAuthorize("hasRole('ADMIN')")
-public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody FaqDTO dto) {
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody FaqDTO dto) {
     try {
         FaqDTO updated = faqService.atualizarFaq(id, dto);
         return ResponseEntity.ok(updated);
@@ -67,18 +67,18 @@ public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody FaqDTO dt
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(Map.of("message", ex.getMessage()));
     }
-}
+    }
 
 
-@DeleteMapping("/{id}")
-@PreAuthorize("hasRole('ADMIN')")
-public ResponseEntity<?> deletar(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
     try {
         faqService.deletarFaq(id);
         return ResponseEntity.ok(Map.of("message", "Pergunta removida com sucesso"));
     } catch (IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", ex.getMessage()));
     }
-}
+    }
 
 }
