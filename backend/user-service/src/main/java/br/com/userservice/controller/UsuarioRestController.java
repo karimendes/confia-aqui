@@ -56,6 +56,76 @@ public class UsuarioRestController {
 		return ResponseEntity.ok(new AuthResponseDTO(u.getId(), u.getEmail(), u.getNome(), roles));
 	}
 
+	@GetMapping("/email/{email}")
+public ResponseEntity<?> buscarPorEmail(@PathVariable String email) {
+    try {
+        Usuario u = usuarioService.buscarPorEmail(email);
+        if (u == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Usuário não encontrado"));
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(u.getId());
+        dto.setEmail(u.getEmail());
+        dto.setNome(u.getNome());
+        dto.setSenha(u.getSenha()); 
+        dto.setRole(u.getRole()); 
+
+        return ResponseEntity.ok(dto);
+    } catch (Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "Erro ao buscar usuário: " + ex.getMessage()));
+    }
+		}
+
+	@PostMapping("/cadastrar")
+	public ResponseEntity<?> cadastrar(@Valid @RequestBody UsuarioDTO dto) {
+		try {
+			Usuario usuario = new Usuario();
+			usuario.setEmail(dto.getEmail());
+			usuario.setNome(dto.getNome());
+			usuario.setSenha(dto.getSenha());
+			if (dto.getRole() != null && !dto.getRole().isBlank()) {
+				usuario.setRole(dto.getRole());
+			}
+			usuarioService.salvar(usuario);
+			dto.setId(usuario.getId());
+			dto.setRole(usuario.getRole()); 
+			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+		} catch (IllegalArgumentException ex) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", ex.getMessage()));
+		} catch (Exception ex) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("message", "Erro ao cadastrar usuário: " + ex.getMessage()));
+		}
+	}
+
+	@PostMapping("/redefinirSenha")
+	public ResponseEntity<?> redefinirSenha(@RequestBody Map<String, Object> body) {
+		try {
+			Object idObj = body.get("usuarioId");
+			Object novaSenhaObj = body.get("novaSenha");
+			if (idObj == null || novaSenhaObj == null) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "usuarioId e novaSenha são obrigatórios"));
+			}
+			Long usuarioId;
+			if (idObj instanceof Number n) {
+				usuarioId = n.longValue();
+			} else {
+				usuarioId = Long.valueOf((String) idObj);
+			}
+			String novaSenha = novaSenhaObj.toString();
+			usuarioService.alterarSenhaPorId(java.util.Objects.requireNonNull(usuarioId), novaSenha);
+			return ResponseEntity.ok(Map.of("message", "Senha redefinida com sucesso"));
+		} catch (NumberFormatException | ClassCastException ex) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "usuarioId inválido"));
+		} catch (IllegalArgumentException ex) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", ex.getMessage()));
+		} catch (RuntimeException ex) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Erro ao redefinir senha: " + ex.getMessage()));
+		}
+	}
+
 	@PatchMapping("/alterarEmail")
 	public ResponseEntity<?> alterarEmail(@Valid @RequestBody EmailDTO dto, HttpServletRequest request) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -128,75 +198,6 @@ public class UsuarioRestController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 							 .body(Map.of("message", "Erro ao deletar usuário: " + ex.getMessage()));
 	}
-}
-
-		@PostMapping("/cadastrar")
-	public ResponseEntity<?> cadastrar(@Valid @RequestBody UsuarioDTO dto) {
-		try {
-			Usuario usuario = new Usuario();
-			usuario.setEmail(dto.getEmail());
-			usuario.setNome(dto.getNome());
-			usuario.setSenha(dto.getSenha());
-			if (dto.getRole() != null && !dto.getRole().isBlank()) {
-				usuario.setRole(dto.getRole());
-			}
-			usuarioService.salvar(usuario);
-			dto.setId(usuario.getId());
-			dto.setRole(usuario.getRole()); 
-			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
-		} catch (IllegalArgumentException ex) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", ex.getMessage()));
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(Map.of("message", "Erro ao cadastrar usuário: " + ex.getMessage()));
-		}
 	}
 
-@GetMapping("/email/{email}")
-public ResponseEntity<?> buscarPorEmail(@PathVariable String email) {
-    try {
-        Usuario u = usuarioService.buscarPorEmail(email);
-        if (u == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("message", "Usuário não encontrado"));
-
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(u.getId());
-        dto.setEmail(u.getEmail());
-        dto.setNome(u.getNome());
-        dto.setSenha(u.getSenha()); 
-        dto.setRole(u.getRole()); 
-
-        return ResponseEntity.ok(dto);
-    } catch (Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("message", "Erro ao buscar usuário: " + ex.getMessage()));
-    }
-}
-
-	@PostMapping("/redefinirSenha")
-	public ResponseEntity<?> redefinirSenha(@RequestBody Map<String, Object> body) {
-		try {
-			Object idObj = body.get("usuarioId");
-			Object novaSenhaObj = body.get("novaSenha");
-			if (idObj == null || novaSenhaObj == null) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "usuarioId e novaSenha são obrigatórios"));
-			}
-			Long usuarioId;
-			if (idObj instanceof Number n) {
-				usuarioId = n.longValue();
-			} else {
-				usuarioId = Long.valueOf((String) idObj);
-			}
-			String novaSenha = novaSenhaObj.toString();
-			usuarioService.alterarSenhaPorId(java.util.Objects.requireNonNull(usuarioId), novaSenha);
-			return ResponseEntity.ok(Map.of("message", "Senha redefinida com sucesso"));
-		} catch (NumberFormatException | ClassCastException ex) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "usuarioId inválido"));
-		} catch (IllegalArgumentException ex) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", ex.getMessage()));
-		} catch (RuntimeException ex) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Erro ao redefinir senha: " + ex.getMessage()));
-		}
-	}
 }
