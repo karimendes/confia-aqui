@@ -11,6 +11,7 @@ import "./App.css"
 import "./index.css"
 
 import { AuthProvider } from "./components/auth/AuthContext"
+import PrivateRoute from "./components/auth/PrivateRoute"
 
 function App() {
   return (
@@ -22,10 +23,10 @@ function App() {
           <Route path="/esqueci-senha" element={<EsqueceuSenha />} />
           <Route path="/redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/home" element={<Home />} />
-         <Route path="/admin/home" element={<HomeAdmin />} />
-          <Route path="/teste" element={<Teste />} />
-          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/home" element={<PrivateRoute role="USER"><Home /></PrivateRoute>} />
+         <Route path="/admin/home" element={<PrivateRoute role="ADMIN"><HomeAdmin /></PrivateRoute>} />
+          <Route path="/teste" element={<PrivateRoute><Teste /></PrivateRoute>} />
+          <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

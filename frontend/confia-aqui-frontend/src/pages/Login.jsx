@@ -1,15 +1,14 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import Input from "../components/ui/Input"
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/ui/BotaoForm"
 import LinkTexto from "../components/ui/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
 import MessageBox from "../components/ui/MessageBox"
-import { loginUser } from "../services/auth/authService"
+import { useAuth } from "../components/auth/AuthContext"
 
 function Login() {
-    const navigate = useNavigate()
+  const { login } = useAuth()
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
     const [mensagem, setMensagem] = useState("")
