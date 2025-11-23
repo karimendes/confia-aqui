@@ -53,7 +53,7 @@ function Login() {
             setTipoMensagem("sucesso")
 
             const role = resposta.user.role ? resposta.user.role.toUpperCase() : "USER"
-            setTimeout(() => navigate(role === "ADMIN" ? "/admin/home" : "/home"), 1500)
+            setTimeout(() => navigate(role === "ADMIN" ? "/admin/home" : "/home"), 3000)
           } else {
             setMensagem("Erro inesperado ao fazer login.")
             setTipoMensagem("erro")
