@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useGerenciarFaq } from "../hooks/gerenciarFaq"
+import { useGerenciarFaq } from "../../hooks/gerenciarFaq"
 
 function FAQ() {
     const [perguntaAtiva, setPerguntaAtiva] = useState(null)

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { getPerfil, alterarEmail, alterarSenha } from "../services/userService"
-import Input from "../components/Input"
+import { getPerfil, alterarEmail, alterarSenha } from "../../services/user/userService"
+import Input from "../ui/Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faSave, faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons"
-import MessageBox from "./MessageBox"
-import LinkTexto from "../components/LinkTexto"
+import MessageBox from "../ui/MessageBox"
+import LinkTexto from "../ui/LinkTexto"
 
 function PerfilSection(){
     const [dados, setDados] = useState({
@@ -106,7 +106,7 @@ function PerfilSection(){
         <h2 className="text-2xl font-bold text-cinza-600 mb-8">Meu Perfil</h2>
 
         {mensagem && (
-          <MessageBox type={tipoMensagem} mensagem={mensagem} />
+          <MessageBox type={tipoMensagem} mensagem={mensagem}/>
     )}
 
         <div className="mb-6">

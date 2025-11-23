@@ -10,7 +10,7 @@ import Perfil from "./pages/Perfil"
 import "./App.css"
 import "./index.css"
 
-import { AuthProvider } from "./components/AuthContext"
+import { AuthProvider } from "./components/auth/AuthContext"
 
 function App() {
   return (

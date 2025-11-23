@@ -32,7 +32,7 @@ function CardPerguntas({ pergunta, onResponder, animacao }) {
                     <BotaoRespostas
                         key={resp.id}
                         texto={resp.texto}
-                        onClick={() => onResponder(resp.correta)}
+                        onClick={() => onResponder(resp)} 
                     />
                 ))}
             </div>
