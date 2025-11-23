@@ -140,3 +140,4 @@ Para executar o projeto, siga as instruções detalhadas nos READMEs de cada par
 | Rayssa Andrade   | Backend, Integração e Documentação do Backend e Geral (README)|
 | Rhaissa Santos   | Frontend                                                      |
 
+
