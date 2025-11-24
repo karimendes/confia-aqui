@@ -18,4 +18,21 @@ apiTeste.interceptors.request.use(
     }
 )
 
+apiTeste.interceptors.response.use(
+    (response) => response,
+    (error) => {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    debug('[apiTeste] Recebeu 401 do servidor. Não redirecionando automaticamente.');
+                }
+                if (error.response.status >= 500) {
+                    error('[apiTeste] Erro interno do servidor:', sanitizeForLogging(error.response.data));
+                }
+            } else {
+                error('[apiTeste] Erro de conexão:', error.message);
+        }
+        return Promise.reject(error);
+    }
+)
+
 export default apiTeste

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react"
+import { createContext, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { loginUser, logoutUser } from "../../services/auth/authService"
 import apiAuth from "../../services/auth/apiAuth"
@@ -6,18 +6,14 @@ import apiAuth from "../../services/auth/apiAuth"
 export const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const navigate = useNavigate()
+  const storedUser = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const storedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    const token = localStorage.getItem("token")
-
-    if (storedUser && token) {
-      setUser(JSON.parse(storedUser))
-      apiAuth.defaults.headers.common["Authorization"] = `Bearer ${token}`
-    }
-  }, [])
+  const [user, setUser] = useState(() => (storedUser ? JSON.parse(storedUser) : null));
+  const navigate = useNavigate();
+  if (storedToken) {
+    apiAuth.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
+  }
 
   const login = async (email, senha) => {
     try {
