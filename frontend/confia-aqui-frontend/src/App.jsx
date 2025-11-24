@@ -25,8 +25,8 @@ function App() {
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/home" element={<PrivateRoute role="USER"><Home /></PrivateRoute>} />
          <Route path="/admin/home" element={<PrivateRoute role="ADMIN"><HomeAdmin /></PrivateRoute>} />
-          <Route path="/teste" element={<PrivateRoute><Teste /></PrivateRoute>} />
-          <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
+          <Route path="/teste" element={<PrivateRoute role="USER"><Teste /></PrivateRoute>} />
+          <Route path="/perfil" element={<PrivateRoute role="USER"><Perfil /></PrivateRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
