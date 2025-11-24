@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { redefinirSenha } from "../services/authService"
-import Input from "../components/Input"
+import { redefinirSenha } from "../services/auth/authService"
+import Input from "../components/ui/Input"
 import { faLock } from "@fortawesome/free-solid-svg-icons"
-import BotaoForm from "../components/BotaoForm"
-import MessageBox from "../components/MessageBox"
+import BotaoForm from "../components/ui/BotaoForm"
+import MessageBox from "../components/ui/MessageBox"
 
 function RedefinirSenha() {
     const navigate = useNavigate()

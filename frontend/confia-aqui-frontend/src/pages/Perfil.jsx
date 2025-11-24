@@ -1,6 +1,6 @@
-import DangerZone from "../components/DangerZone"
-import Header from "../components/Header"
-import PerfilSection from "../components/PerfilSection"
+import DangerZone from "../components/perfil/DangerZone"
+import Header from "../components/ui/Header"
+import PerfilSection from "../components/perfil/PerfilSection"
 
 
 function Perfil() {

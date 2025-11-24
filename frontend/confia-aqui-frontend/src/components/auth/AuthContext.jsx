@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import { loginUser, logoutUser } from "../services/authService"
-import apiAuth from "../services/apiAuth"
+import { loginUser, logoutUser } from "../../services/auth/authService"
+import apiAuth from "../../services/auth/apiAuth"
 
 export const AuthContext = createContext()
 

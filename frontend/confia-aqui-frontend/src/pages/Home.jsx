@@ -1,8 +1,8 @@
-import Header from "../components/Header";
-import Hero from "../components/Hero";
-import CardTeste from "../components/CardTeste";
-import FAQ from "../components/FAQ";
-import ChatBot from "../components/ChatBot";
+import Header from "../components/ui/Header";
+import Hero from "../components/home/Hero";
+import CardTeste from "../components/home/CardTeste";
+import FAQ from "../components/home/FAQ";
+import ChatBot from "../components/chatbot/ChatBot";
 
 function Home() {
   return (

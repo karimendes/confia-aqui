@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { esqueciSenha } from "../services/authService.js"
-import Input from "../components/Input"
-import BotaoForm from "../components/BotaoForm.jsx"
-import MessageBox from "../components/MessageBox.jsx"
+import { esqueciSenha } from "../services/auth/authService.js"
+import Input from "../components/ui/Input"
+import BotaoForm from "../components/ui/BotaoForm.jsx"
+import MessageBox from "../components/ui/MessageBox.jsx"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 
 function EsqueceuSenha(){

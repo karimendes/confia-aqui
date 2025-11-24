@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faTimes, faLock } from "@fortawesome/free-solid-svg-icons"
-import { excluirUser } from "../services/userService"
-import Input from "../components/Input"
-import MessageBox from "./MessageBox"
+import { excluirUser } from "../../services/user/userService"
+import Input from "../ui/Input"
+import MessageBox from "../ui/MessageBox"
 
 function DangerZone(){
     const [mostrarModal, setMostrarModal] = useState(false)
@@ -46,7 +46,7 @@ function DangerZone(){
     }
 
     return (
-        <div className="mt-4 flex flex-col justify-center items-center w-full p-10 bg-gray-50">
+        <div className="mt-4 flex flex-col justify-center items-center w-full p-10">
         <div className="bg-white rounded-2xl shadow-xl p-4 m-4 w-full">
           {mensagem && (
           <MessageBox type={tipoMensagem} mensagem={mensagem} />
@@ -74,7 +74,7 @@ function DangerZone(){
               <FontAwesomeIcon icon={faTimes} />
             </button>
 
-            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-3">
+            <h2 className="text-2xl font-semibold text-cinza-600 text-center mb-3">
               Excluir Conta
             </h2>
             {mensagem && (

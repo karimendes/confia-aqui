@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { getPerfil, alterarEmail, alterarSenha } from "../services/userService"
-import Input from "../components/Input"
+import { getPerfil, alterarEmail, alterarSenha } from "../../services/user/userService"
+import Input from "../ui/Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faSave, faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons"
-import MessageBox from "./MessageBox"
-import LinkTexto from "../components/LinkTexto"
+import MessageBox from "../ui/MessageBox"
+import LinkTexto from "../ui/LinkTexto"
 
 function PerfilSection(){
     const [dados, setDados] = useState({
@@ -67,7 +67,7 @@ function PerfilSection(){
 
         if (!senhaAtual) novosErros.senhaAtual = "Digite sua senha atual."
         if (!novaSenha) novosErros.novaSenha = "Digite sua nova senha."
-        if (novaSenha.length <6) novosErros.novaSenha = "A senha deve ter no mínimo 6 caracteres."
+        if (novaSenha.length < 6) novosErros.novaSenha = "A senha deve ter no mínimo 6 caracteres."
         if (confirmarSenha !== novaSenha) novosErros.confirmarSenha = "As senhas não são iguais. Digite novamente."
 
         if (novosErros.senhaAtual || novosErros.novaSenha || novosErros.confirmarSenha) {
@@ -77,36 +77,42 @@ function PerfilSection(){
 
         try {
           await alterarSenha({
-            senhaAtual: senhaAtual,
-            novaSenha: novaSenha,
-            confirmarSenha: confirmarSenha
-          })
+            senhaAtual,
+            novaSenha,
+            confirmarSenha
+        })
 
-          setEditandoSenha(false)
-          setSenhaAtual("")
-          setNovaSenha("")
-          setConfirmarSenha("")
-          setMensagem("Senha atualizada com sucesso!")
-          setTipoMensagem("sucesso")
-        } catch (error) {
-          console.error("Erro ao atualizar senha:", error)
-          if (error.response?.status === 401 || error.response?.data?.mensagem?.includes("atual")) {
-            setErros((prev) => ({ ...prev, senhaAtual: "Senha atual incorreta." }))
-            setMensagem("A senha atual está incorreta.")
-            setTipoMensagem("erro")
-            return
-        }
-          setMensagem("Erro ao atualizar senha. Tente novamente.")
-          setTipoMensagem("erro")
-        }
-      }
+        setEditandoSenha(false)
+        setSenhaAtual("")
+        setNovaSenha("")
+        setConfirmarSenha("")
+        setMensagem("Senha atualizada com sucesso!")
+        setTipoMensagem("sucesso")
+
+  } catch (error) {
+    console.error("Erro ao atualizar senha:", error)
+
+    const msg = error.response?.data?.message?.toLowerCase() || ""
+
+    if (msg.includes("atual") || msg.includes("incorreta") || error.response?.status === 401) {
+      setErros(prev => ({ ...prev, senhaAtual: "Senha atual incorreta." }))
+      setMensagem("A senha atual está incorreta.")
+      setTipoMensagem("erro")
+      return
+    }
+
+    setMensagem("Erro ao atualizar senha. Tente novamente.")
+    setTipoMensagem("erro")
+  }
+}
+
     return (
     <main className="flex justify-center items-center px-4 pt-16 w-screen bg-gray-50">
       <div className="bg-white rounded-2xl shadow-xl w-screen p-10 mt-2 lg:mt-8">
         <h2 className="text-2xl font-bold text-cinza-600 mb-8">Meu Perfil</h2>
 
         {mensagem && (
-          <MessageBox type={tipoMensagem} mensagem={mensagem} />
+          <MessageBox type={tipoMensagem} mensagem={mensagem}/>
     )}
 
         <div className="mb-6">

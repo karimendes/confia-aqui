@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import Header from "../components/Header"
-import MessageBox from "../components/MessageBox"
+import Header from "../components/ui/Header"
+import MessageBox from "../components/ui/MessageBox"
 import { useGerenciarFaq } from "../hooks/gerenciarFaq"
 
 function HomeAdmin() {
@@ -52,33 +52,54 @@ function HomeAdmin() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setMensagem("")
+    e.preventDefault()
+    setMensagem("")
 
-        if (!formData.pergunta.trim() || !formData.resposta.trim()) {
-            setMensagem("Pergunta e resposta são obrigatórias")
-            setTipoMensagem("erro")
-            return
-        }
+    const pergunta = formData.pergunta.trim()
+    const resposta = formData.resposta.trim()
 
-        try {
-            if (editingId) {
-                await editFaq(editingId, formData.pergunta, formData.resposta)
-                setMensagem("FAQ atualizada com sucesso!")
-                setTipoMensagem("sucesso")
-            } else {
-                await addFaq(formData.pergunta, formData.resposta)
-                setMensagem("FAQ criada com sucesso!")
-                setTipoMensagem("sucesso")
-            }
-
-            handleCloseModal()
-
-        } catch (err) {
-            setMensagem("Erro ao criar FAQ. Tente novamente.")
-            setTipoMensagem("erro")
-        }
+    if (!pergunta || !resposta) {
+        setMensagem("Pergunta e resposta são obrigatórias.");
+        setTipoMensagem("erro");
+        return;
     }
+
+    const existePergunta = faqs.some(
+        (faq) =>
+            faq.pergunta.toLowerCase() === pergunta.toLowerCase() &&
+            faq.id !== editingId 
+    )
+
+    if (existePergunta) {
+        setMensagem("Já existe uma FAQ com essa pergunta.")
+        setTipoMensagem("erro")
+        return
+    }
+
+    if (!editingId && faqs.length >= 6) {
+        setMensagem("Você só pode criar no máximo 6 FAQs.")
+        setTipoMensagem("erro")
+        return
+    }
+
+    try {
+        if (editingId) {
+            await editFaq(editingId, pergunta, resposta)
+            setMensagem("FAQ atualizada com sucesso!")
+            setTipoMensagem("sucesso")
+        } else {
+            await addFaq(pergunta, resposta);
+            setMensagem("FAQ criada com sucesso!")
+            setTipoMensagem("sucesso")
+        }
+
+        handleCloseModal();
+
+    } catch (err) {
+        setMensagem("Erro ao salvar FAQ.")
+        setTipoMensagem("erro")
+    }
+}
 
     const handleDelete = async (id) => {
         try {

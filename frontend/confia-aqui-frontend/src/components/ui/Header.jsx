@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { useAuth } from "./AuthContext"
+import { useAuth } from "../../components/auth/AuthContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { faBars, faTimes, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"

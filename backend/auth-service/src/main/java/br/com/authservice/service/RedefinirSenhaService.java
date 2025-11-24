@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import br.com.authservice.entity.RedefinirSenha;
@@ -54,15 +55,37 @@ public class RedefinirSenhaService {
             throw new IllegalArgumentException("Token expirado");
         }
 
+        logger.info("Iniciando redefinição de senha para usuarioId={} com token={}", entity.getUsuarioId(), token);
+
         // delega a senha para user-service via client
         Long usuarioId = entity.getUsuarioId();
         try {
             userClientService.redefinirSenhaById(usuarioId, novaSenha);
+            logger.info("Senha redefinida com sucesso para usuarioId={}", usuarioId);
         } catch (Exception ex) {
             logger.error("Erro ao chamar user-service para redefinir senha do usuarioId={}: {}", usuarioId, ex.getMessage(), ex);
             throw ex;
         }
 
-        redefinirSenhaRepository.delete(entity);
+        // Deletar token APÓS sucesso confirmado
+        try {
+            redefinirSenhaRepository.delete(entity);
+            logger.info("Token deletado com sucesso: {}", token);
+        } catch (Exception ex) {
+            logger.error("Erro ao deletar token {}: {}", token, ex.getMessage(), ex);
+            throw new RuntimeException("Senha redefinida mas erro ao limpar token: " + ex.getMessage(), ex);
+        }
+    }
+
+    // Verifica no banco quais tokens de redefinição de senha expiraram e os remove
+    @Scheduled(fixedRate = 600000) // 10 minutos
+    public void limparTokensExpirados() {
+        logger.info("Limpeza de tokens de redefinição de senha expirados em execução...");
+        try {
+            redefinirSenhaRepository.deleteExpiredTokens(LocalDateTime.now());
+            logger.info("Tokens expirados removidos do banco de dados");
+        } catch (Exception ex) {
+            logger.error("Erro ao limpar tokens expirados: {}", ex.getMessage(), ex);
+        }
     }
 }

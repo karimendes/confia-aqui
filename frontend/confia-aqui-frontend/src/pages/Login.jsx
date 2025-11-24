@@ -1,15 +1,14 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import Input from "../components/Input"
+import Input from "../components/ui/Input"
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
-import BotaoForm from "../components/BotaoForm"
-import LinkTexto from "../components/LinkTexto"
+import BotaoForm from "../components/ui/BotaoForm"
+import LinkTexto from "../components/ui/LinkTexto"
 import imagemLayoutForm from "../images/imagemLayoutForm.png"
-import MessageBox from "../components/MessageBox"
-import { loginUser } from "../services/authService"
+import MessageBox from "../components/ui/MessageBox"
+import { useAuth } from "../components/auth/AuthContext"
 
 function Login() {
-    const navigate = useNavigate()
+  const { login } = useAuth()
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
     const [mensagem, setMensagem] = useState("")
@@ -24,10 +23,6 @@ function Login() {
         e.preventDefault()
         if (loading) return
 
-        setMensagem("")
-        setTipoMensagem("")
-        setLoading(true)
-
         let novosErros = { email: false, senha: false }
 
         if (!email) novosErros.email = true
@@ -41,23 +36,13 @@ function Login() {
             setLoading(false)
             return
         }
+
+        setLoading(true)
        
         try {
-          const resposta = await loginUser(email, senha)
-
-          if (resposta && resposta.token && resposta.user) {
-            localStorage.setItem("token", resposta.token)
-            localStorage.setItem("user", JSON.stringify(resposta.user))
-
-            setMensagem("Login realizado com sucesso!")
-            setTipoMensagem("sucesso")
-
-            const role = resposta.user.role ? resposta.user.role.toUpperCase() : "USER"
-            setTimeout(() => navigate(role === "ADMIN" ? "/admin/home" : "/home"), 1500)
-          } else {
-            setMensagem("Erro inesperado ao fazer login.")
-            setTipoMensagem("erro")
-          }
+          await login(email, senha)
+          setMensagem("Login realizado com sucesso!")
+          setTipoMensagem("sucesso")
         } catch (erro) {
           console.error("Erro ao fazer login:", erro)
           if (erro.response?.status === 401) {
