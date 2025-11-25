@@ -3,7 +3,7 @@ import Input from "../components/ui/Input"
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/ui/BotaoForm"
 import LinkTexto from "../components/ui/LinkTexto"
-import imagemLayoutForm from "../images/imagemLayoutForm.png"
+import imagemLogo from "../images/imagemLogo.png"
 import MessageBox from "../components/ui/MessageBox"
 import { useAuth } from "../components/auth/AuthContext"
 
@@ -57,8 +57,8 @@ function Login() {
     }
 
     return (
-       <div className="flex h-screen w-screen flex-col md:flex-row">
-  <div className="w-full md:w-1/2 h-[50vh] md:h-full flex flex-col justify-center items-center p-8 sm:p-12 md:p-16 bg-white">
+       <div className="flex h-screen w-screen flex-col md:flex-row bg-azul">
+  <div className="w-full md:w-1/2 md:h-full flex flex-col justify-center items-center p-8 sm:p-12 md:p-16 bg-white">
     <div className="w-full flex flex-col justify-center items-center">
       <h1 className="text-2xl mb-4 text-cinza-600 font-bold text-center">Login</h1>
 
@@ -97,11 +97,11 @@ function Login() {
     </div>
   </div>
 
-  <div className="w-full md:w-1/2 h-[50vh] md:h-full flex items-center justify-center bg-azul p-8 md:p-0">
+  <div className="w-full md:w-1/2 md:h-full flex items-center justify-center bg-azul p-8 md:p-0">
     <img
-      src={imagemLayoutForm}
+      src={imagemLogo}
       alt="Ilustração de um homem com lupa analisando um computador"
-      className="w-56 sm:w-64 md:w-80 object-contain"
+      className="w-60 sm:w-72 md:w-80 lg:w-96 object-contain"
     />
   </div>
 </div>

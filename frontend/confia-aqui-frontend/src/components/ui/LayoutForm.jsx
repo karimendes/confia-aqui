@@ -1,6 +1,6 @@
-function LayoutForm(imagemLayoutForm, alt){
+function LayoutForm(imagemLogo, alt){
     return (
-            <img src={imagemLayoutForm} alt={alt} />
+            <img src={imagemLogo} alt={alt} />
     )
 }
 
