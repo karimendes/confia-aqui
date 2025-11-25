@@ -1,7 +1,18 @@
 function CardGolpePresente() {
   return (
-    <section className="flex justify-center pt-10 pb-2 px-4 bg-gray-50">
-        <div className="max-w-5xl mx-auto py-12 px-4 mb-4 text-left bg-gray-50">
+    <section className="flex justify-center pt-20 pb-2 px-4 bg-gray-50">
+      <div className="max-w-5xl mx-auto py-4 px-4 mb-4 text-left bg-gray-50">
+
+           <h2 className="text-xl font-bold text-cinza-600 mb-5">
+             Aprenda a identificar golpes com confiança
+           </h2>
+      
+            <p className="text-cinza-600 mb-5 text-sm font-normal">
+             No Confia Aqui, você aprende de forma simples e prática a identificar golpes,
+             entender como eles acontecem e agir com segurança. Explore conteúdos claros,
+             exemplos reais e fortaleça sua proteção no dia a dia.
+           </p>
+        
             <h2 className="text-xl font-bold text-cinza-600 mb-5">Introdução ao Golpe do Presente</h2>
 
             <h3 className="font-bold text-cinza-600 mb-2">O que é o Golpe do Presente?</h3>
@@ -19,12 +30,6 @@ function CardGolpePresente() {
               <li>Enviar links muito parecidos com sites reais, mas que são fraudulentos.</li>
             </ul>
             <p className="text-cinza-600 text-sm font-normal mt-2 mb-5 "> A tática é sempre a mesma: enganar, apressar e coletar informações.</p>
-
-            <h3 className="font-bold text-cinza-600 mb-2">Teste seus conhecimentos</h3>
-            <p className="text-cinza-600 mb-2 text-sm font-normal">
-            Descubra se você reconhece os principais sinais do Golpe do Presente. </p>
-            <p className="text-cinza-600 text-sm font-normal mb-2 ">Nosso teste é rápido e prático. Ele apresenta situações reais para você identificar o golpe na prática e aprender a agir com mais segurança. </p>
-            <p className="text-cinza-600 text-sm font-normal">Quanto mais você treina, mais preparado fica.</p>
           </div>
       </section>
   )
