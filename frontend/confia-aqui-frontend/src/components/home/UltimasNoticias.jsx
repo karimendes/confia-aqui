@@ -1,19 +1,19 @@
 function UltimasNoticias() {
   const noticias = [
     {
-      titulo: "CNN Brasil — Golpe do Presente no WhatsApp",
+      titulo: "CNN Brasil - Golpe do Presente no WhatsApp",
       imagem: "/imagemteste.webp",
-      descricao: "Alerta da CNN Brasil: golpistas usam a desculpa de um presente surpresa para roubar seus dados pelo WhatsApp",
+      descricao: "Golpistas usam a desculpa de um presente surpresa para roubar dados pelo WhatsApp",
       link: "https://www.cnnbrasil.com.br/nacional/especialista-alerta-sobre-golpe-do-presente-veja-cuidados/",
     },
     {
-      titulo: "Record — Golpe do Falso Presente",
+      titulo: "Record - Golpe do Falso Presente",
       imagem: "/imagemJornal.jpg",
-      descricao: "Matéria Record mostra a tática de golpistas que usam um falso “presente” para enganar vítimas e aplicar cobranças indevidas.",
+      descricao: "Matéria mostra a tática de golpistas que usam um falso “presente” para enganar vítimas e aplicar cobranças indevidas.",
       link: "https://youtu.be/dv2TYZFpU4s?utm_source=chatgpt.com",
     },
     {
-      titulo: "Reuters — Oferta falsa Cacau Show vira isca para golpe",
+      titulo: "Reuters - Oferta falsa vira isca para golpe",
       imagem: "/imagemCacauShow.jpg",
       descricao: "Ovos de Páscoa da Cacau Show são usados em golpe",
       link: "https://www.reuters.com/fact-check/portugues/CBUZSCH3SFOYFMA4XQCWOACZPE-2024-03-13/?utm_source=chatgpt.com",
