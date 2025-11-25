@@ -2,12 +2,6 @@ import BotaoRespostas from "./BotaoRespostas";
 
 function CardPerguntas({ pergunta, onResponder, animacao }) {
 
-    const corDificuldade = {
-        FACIL: "bg-green-500",
-        MEDIO: "bg-yellow-500",
-        DIFICIL: "bg-red-500"
-    };
-
     return (
         <div
             className={`bg-white shadow-md rounded-xl p-6 transition-all duration-300
