@@ -17,6 +17,7 @@ function Teste() {
         finalizado,
         resultado,
         carregando
+        , selectedOptionId, correctOptionId, wrongOptionId
     } = useGerenciarTeste();
 
     return (
@@ -46,6 +47,9 @@ function Teste() {
                             pergunta={perguntas[indexAtual]}
                             onResponder={responder}
                             animacao={animacao}
+                            selectedOptionId={selectedOptionId}
+                            correctOptionId={correctOptionId}
+                            wrongOptionId={wrongOptionId}
                         />
                     </div>
                 </div>

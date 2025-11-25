@@ -1,6 +1,11 @@
 import BotaoRespostas from "./BotaoRespostas";
 
-function CardPerguntas({ pergunta, onResponder, animacao }) {
+function CardPerguntas({ pergunta, onResponder, animacao, selectedOptionId, correctOptionId, wrongOptionId }) {
+    const corDificuldade = {
+        FACIL: "bg-green-500",
+        MEDIO: "bg-yellow-500",
+        DIFICIL: "bg-red-500"
+    };
 
     return (
         <div
@@ -32,12 +37,15 @@ function CardPerguntas({ pergunta, onResponder, animacao }) {
                         : buildOptionsFromFields();
 
                     const respostas = rawRespostas;
-                    const [selecionada, setSelecionada] = window._cardPerguntaSel || [null, () => {}];
+                    const [windowSelecionada, setSelecionada] = window._cardPerguntaSel || [null, () => {}];
+                    const selecionada = selectedOptionId || windowSelecionada;
                         return respostas.map((resp) => (
                         <BotaoRespostas
                             key={resp.id}
                             texto={resp.texto}
                             selecionada={selecionada === resp.id}
+                            isCorrect={correctOptionId === resp.id}
+                            isWrong={wrongOptionId === resp.id}
                             animacao={animacao}
                             onClick={() => {
                                 window._cardPerguntaSel = [resp.id, setSelecionada];

@@ -12,8 +12,13 @@ export function useGerenciarTeste() {
     const [indexAtual, setIndexAtual] = useState(0);
     const [respostas, setRespostas] = useState([]);
     const [animacao, setAnimacao] = useState(null);
+    const [selectedOptionId, setSelectedOptionId] = useState(null);
+    const [correctOptionId, setCorrectOptionId] = useState(null);
+    const [wrongOptionId, setWrongOptionId] = useState(null);
 
     const [carregando, setCarregando] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
+    const ANSWER_DELAY_MS = 800; 
 
     async function iniciar(categoria = "golpe_presente") {
         try {
@@ -70,9 +75,14 @@ export function useGerenciarTeste() {
     }
 
     async function responder(respostaSelecionada) {
+        if (isChecking) return;
+        setIsChecking(true);
         const perguntaAtual = perguntas[indexAtual];
 
-        // Verifica com o backend se a resposta está correta, sem expor rightAnswer
+        setSelectedOptionId(respostaSelecionada.id);
+        setCorrectOptionId(null);
+        setWrongOptionId(null);
+
         let acertou = false;
         try {
             acertou = await checkAnswer(quizId, perguntaAtual.id, respostaSelecionada.texto);
@@ -90,10 +100,38 @@ export function useGerenciarTeste() {
             }
         ]);
 
+        if (acertou) {
+            setCorrectOptionId(respostaSelecionada.id);
+            setWrongOptionId(null);
+        } else {
+            setWrongOptionId(respostaSelecionada.id);
+            const buildOptions = () => [perguntaAtual?.option1, perguntaAtual?.option2, perguntaAtual?.option3, perguntaAtual?.option4]
+                .filter(Boolean)
+                .map((texto, i) => ({ id: `${perguntaAtual?.id || 'p'}_${i}`, texto }));
+
+            let optionsToCheck = perguntaAtual.respostas && Array.isArray(perguntaAtual.respostas)
+                ? perguntaAtual.respostas
+                : buildOptions();
+            for (const opt of optionsToCheck) {
+                if (opt.id === respostaSelecionada.id) continue;
+                try {
+                    const ok = await checkAnswer(quizId, perguntaAtual.id, opt.texto);
+                    if (ok) {
+                        setCorrectOptionId(opt.id);
+                        break;
+                    }
+                } catch (err) {
+                }
+            }
+        }
+
         setAnimacao(acertou ? "correto" : "errado");
 
             setTimeout(() => {
                 setAnimacao(null);
+                setSelectedOptionId(null);
+                setCorrectOptionId(null);
+                setWrongOptionId(null);
 
                 // limpar seleção atual para a próxima pergunta
                 if (window._cardPerguntaSel) {
@@ -106,7 +144,8 @@ export function useGerenciarTeste() {
                 } else {
                     finalizarQuiz();
                 }
-            }, 500);
+                setIsChecking(false);
+            }, ANSWER_DELAY_MS);
     }
 
     const progresso =
@@ -125,6 +164,9 @@ export function useGerenciarTeste() {
         finalizado,
         resultado,
 
-        carregando
+        carregando,
+        selectedOptionId,
+        correctOptionId,
+        wrongOptionId
     };
 }
