@@ -3,6 +3,7 @@ import CardPerguntas from "../components/teste/CardPerguntas";
 import ResultadoTeste from "../components/teste/ResultadoTeste";
 import IniciarTeste from "../components/teste/IniciarTeste";
 import { useGerenciarTeste } from "../hooks/gerenciarTeste";
+import Footer from "../components/ui/Footer";
 
 function Teste() {
     const {
@@ -49,6 +50,7 @@ function Teste() {
                     </div>
                 </div>
             )}
+            <Footer />
         </>
     );
 }

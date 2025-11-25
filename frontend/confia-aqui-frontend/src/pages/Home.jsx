@@ -3,6 +3,7 @@ import Hero from "../components/home/Hero";
 import CardTeste from "../components/home/CardTeste";
 import FAQ from "../components/home/FAQ";
 import ChatBot from "../components/chatbot/ChatBot";
+import Footer from "../components/ui/Footer";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
       <Hero />
       <CardTeste />
       <FAQ />
+      <Footer />
 
       <div className="fixed bottom-4 right-4 z-50">
         <ChatBot />
