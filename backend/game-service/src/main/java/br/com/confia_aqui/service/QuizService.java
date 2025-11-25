@@ -1,21 +1,27 @@
 package br.com.confia_aqui.service;
 
-import br.com.confia_aqui.dao.QuizDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import br.com.confia_aqui.dao.QuestionDao;
+import br.com.confia_aqui.dao.QuizDao;
 import br.com.confia_aqui.exception.InsufficientQuestionsException;
+import br.com.confia_aqui.exception.QuestionNotFoundException;
 import br.com.confia_aqui.exception.QuizNotFoundException;
 import br.com.confia_aqui.model.Question;
 import br.com.confia_aqui.model.QuestionWrapper;
 import br.com.confia_aqui.model.Quiz;
 import br.com.confia_aqui.model.QuizResult;
 import br.com.confia_aqui.model.Response;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class QuizService {
@@ -25,6 +31,8 @@ public class QuizService {
 
     @Autowired
     QuestionDao questionDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(QuizService.class);
 
     //obtem as perguntas que vao compor o quiz
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
@@ -46,7 +54,7 @@ public class QuizService {
         return new ResponseEntity<>("Quiz criado com sucesso! ID: " + quiz.getId(), HttpStatus.CREATED);
     }
 
-//puxa um quiz existente pelo ID e retorna as perguntas (sem as respostas corretas)
+    //puxa um quiz existente pelo ID e retorna as perguntas (sem as respostas corretas)
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
         Optional<Quiz> quizOptional = quizDao.findById(id);
 
@@ -61,12 +69,12 @@ public class QuizService {
         //question wrapper (responsavel para nao enviar a resposta correta)
         for (Question q : questionsFromDB) {
             QuestionWrapper qw = new QuestionWrapper(
-                    q.getId(),
-                    q.getQuestionTitle(),
-                    q.getOption1(),
-                    q.getOption2(),
-                    q.getOption3(),
-                    q.getOption4()
+                q.getId(),
+                q.getQuestionTitle(),
+                q.getOption1(),
+                q.getOption2(),
+                q.getOption3(),
+                q.getOption4()
             );
             questionsForUser.add(qw);
         }
@@ -96,9 +104,12 @@ public class QuizService {
             Response response = responses.get(i);
             Question question = questions.get(i);
 
-            if (response.getResponse() != null &&
-                    response.getResponse().equals(question.getRightAnswer())) {
-                correctAnswers++;
+            if (response.getResponse() != null && question.getRightAnswer() != null) {
+                String respTrim = response.getResponse().trim();
+                String rightTrim = question.getRightAnswer().trim();
+                if (respTrim.equalsIgnoreCase(rightTrim)) {
+                    correctAnswers++;
+                }
             }
         }
 
@@ -107,4 +118,32 @@ public class QuizService {
         QuizResult result = new QuizResult(id, questions.size(), correctAnswers);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    // Verifica se a resposta para uma pergunta do quiz está correta
+    public boolean checkAnswer(Integer quizId, Integer questionId, String answer) {
+        logger.debug("[QuizService] checkAnswer: quizId={}, questionId={}, answer='{}'", quizId, questionId, (answer==null?"null":answer));
+        Optional<Quiz> quizOptional = quizDao.findById(quizId);
+        if (quizOptional.isEmpty()) {
+            throw new QuizNotFoundException(quizId);
+        }
+
+        Quiz quiz = quizOptional.get();
+        List<Question> questions = quiz.getQuestions();
+        if (questions == null || questions.isEmpty()) {
+            // nenhuma pergunta atrelada a esse quiz
+            throw new QuestionNotFoundException("Question not found for quizId=" + quizId);
+        }
+
+        for (Question q : questions) {
+            // proteger contra NPEs
+            if (Objects.equals(q.getId(), questionId)) {
+                String right = q.getRightAnswer();
+                if (right == null || answer == null) return false;
+                return right.trim().equalsIgnoreCase(answer.trim());
+            }
+        }
+        // se chegar aqui, a pergunta nao pertence ao quiz
+        throw new QuestionNotFoundException("Question id " + questionId + " not found in quiz " + quizId);
+    }
+
 }

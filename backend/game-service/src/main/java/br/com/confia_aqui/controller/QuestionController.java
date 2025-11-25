@@ -1,6 +1,6 @@
 package br.com.confia_aqui.controller;
 
-import br.com.confia_aqui.model.Question;
+import br.com.confia_aqui.model.QuestionWrapper;
 import br.com.confia_aqui.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ public class QuestionController {
 
     //busca perguntas
     @GetMapping("allQuestions")
-    public ResponseEntity<List<Question>> getAllQuestions() {
+    public ResponseEntity<List<QuestionWrapper>> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
     //busca perguntas de uma categoria especificada
     @GetMapping("category/{category}")
-    public ResponseEntity<List<Question>> getQuestionsByCategory(@PathVariable String category) {
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsByCategory(@PathVariable String category) {
         if (category == null || category.trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
