@@ -1,6 +1,7 @@
 import DangerZone from "../components/perfil/DangerZone"
 import Header from "../components/ui/Header"
 import PerfilSection from "../components/perfil/PerfilSection"
+import Footer from "../components/ui/Footer"
 
 
 function Perfil() {
@@ -10,6 +11,7 @@ function Perfil() {
     <Header /> 
     <PerfilSection />
     <DangerZone />
+    <Footer />
     </div>
   )
 }

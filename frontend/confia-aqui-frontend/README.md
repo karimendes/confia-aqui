@@ -135,8 +135,8 @@ http://localhost:5173
 | Nome           | O que fez                                                                                                           |
 |----------------|---------------------------------------------------------------------------------------------------------------------|
 | Beatriz Nagae | Prototipação no Figma, desenvolvimento da tela: Home do Admin. |
-| Davi Rocha | Desenvolvimento do componente FAQ. |
-| Fábio Gomes | Desenvolvimento do componente FAQ. |
-| Karine Ferreira | Criação do frontend, prototipação no Figma, desenvolvimento das telas: Login, Cadastro, Esqueceu a Senha, Redefinir Senha, Home do Usuário, Perfil do Usuário e Teste, e documentação frontend (README). |
-| Rafael Carvalho | Desenvolvimento do componente ChatBot. |
-| Rhaissa Santos | Desenvolvimento dos componentes ChatBot e Hero da Home do Usuário. |
+| Davi Rocha | Desenvolvimento do componente: FAQ. |
+| Fábio Gomes | Desenvolvimento do componente: FAQ. |
+| Karine Ferreira | Criação do Frontend, prototipação no Figma, desenvolvimento das telas: Login, Cadastro, Esqueceu a Senha, Redefinir Senha, Home do Usuário, Perfil do Usuário e Teste, e documentação Frontend (README). |
+| Rafael Carvalho | Desenvolvimento do componente: ChatBot. |
+| Rhaissa Santos | Desenvolvimento da tela: Home do Usuário e do componente: Footer. |

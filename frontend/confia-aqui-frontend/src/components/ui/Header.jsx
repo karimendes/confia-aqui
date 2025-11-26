@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import imagemLogo from "../../images/imagemLogoTransparente.png"
 import { useAuth } from "../../components/auth/AuthContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
@@ -23,7 +24,12 @@ function Header() {
         />
       </button>
 
-      <h1 className="text-2xl font-bold text-azul absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none">Confia Aqui</h1>
+      <Link 
+        to="/home" 
+        className="flex items-center gap-2 text-2xl font-bold text-azul hover:opacity-95 absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none">
+        <img src={imagemLogo} alt="Imagem logo do Confia Aqui" className="w-8 h-8 object-contain" />
+        Confia Aqui
+      </Link>
 
       <div className="relative flex items-center justify-center w-10 h-10 cursor-pointer" onClick={() => setDropDownAberto(!dropDownAberto)}>
         <FontAwesomeIcon

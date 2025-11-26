@@ -1,6 +1,10 @@
-function BotaoRespostas({ texto, onClick, selecionada, animacao }) {
+function BotaoRespostas({ texto, onClick, selecionada, animacao, isCorrect=false, isWrong=false }) {
     let cor = "bg-azul";
-        if (selecionada && animacao === "correto") {
+        if (isCorrect) {
+            cor = "bg-green-500";
+        } else if (isWrong) {
+            cor = "bg-red-500";
+        } else if (selecionada && animacao === "correto") {
             cor = "bg-green-500";
         } else if (selecionada && animacao === "errado") {
             cor = "bg-red-500";

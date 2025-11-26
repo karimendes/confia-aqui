@@ -1,16 +1,11 @@
 import BotaoRespostas from "./BotaoRespostas";
 
-function CardPerguntas({ pergunta, onResponder, animacao }) {
-
-    const corDificuldade = {
-        FACIL: "bg-green-500",
-        MEDIO: "bg-yellow-500",
-        DIFICIL: "bg-red-500"
-    };
+function CardPerguntas({ pergunta, onResponder, animacao, selectedOptionId, correctOptionId, wrongOptionId }) {
 
     return (
+        <main className="flex justify-center items-center w-screen h-screen bg-gray-50 px-4">
         <div
-            className={`bg-white shadow-md rounded-xl p-6 transition-all duration-300
+            className={`bg-white w-full max-w-xl shadow-xl rounded-2xl p-10 transition-all duration-300
                 ${animacao === "correto" ? "ring-4 ring-green-400 scale-[1.02]" : ""}
                 ${animacao === "errado" ? "ring-4 ring-red-400 scale-[0.98]" : ""}
             `}
@@ -19,12 +14,6 @@ function CardPerguntas({ pergunta, onResponder, animacao }) {
                 <h2 className="text-xl font-semibold text-cinza-600">
                     {pergunta?.titulo || pergunta?.questionTitle || "Pergunta"}
                 </h2>
-
-                <span
-                    className={`text-white px-3 py-1 rounded-full text-xs ${corDificuldade[pergunta?.dificuldade] || "bg-gray-400"}`}
-                >
-                    {pergunta?.dificuldade || ""}
-                </span>
             </div>
 
             <div className="flex flex-col gap-3 mt-4">
@@ -38,12 +27,15 @@ function CardPerguntas({ pergunta, onResponder, animacao }) {
                         : buildOptionsFromFields();
 
                     const respostas = rawRespostas;
-                    const [selecionada, setSelecionada] = window._cardPerguntaSel || [null, () => {}];
+                    const [windowSelecionada, setSelecionada] = window._cardPerguntaSel || [null, () => {}];
+                    const selecionada = selectedOptionId || windowSelecionada;
                         return respostas.map((resp) => (
                         <BotaoRespostas
                             key={resp.id}
                             texto={resp.texto}
                             selecionada={selecionada === resp.id}
+                            isCorrect={correctOptionId === resp.id}
+                            isWrong={wrongOptionId === resp.id}
                             animacao={animacao}
                             onClick={() => {
                                 window._cardPerguntaSel = [resp.id, setSelecionada];
@@ -54,6 +46,7 @@ function CardPerguntas({ pergunta, onResponder, animacao }) {
                 })()}
             </div>
         </div>
+    </main>
     );
 }
 

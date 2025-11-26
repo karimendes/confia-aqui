@@ -12,8 +12,8 @@ function FAQ() {
         fetchFaqs()
     }, [])
 
-    const abrirPergunta = (index) => {
-        setPerguntaAtiva(perguntaAtiva === index ? null : index)
+    const abrirPergunta = (id) => {
+        setPerguntaAtiva(perguntaAtiva === id ? null : id)
     }
 
     return (
@@ -36,26 +36,26 @@ function FAQ() {
 
             <div className="grid md:grid-cols-2 gap-6">
                 {!loading &&
-                    faqs.map((faq, index) => (
+                    faqs.map((faq) => (
                         <div
                             key={faq.id}
                             className={`bg-white rounded-xl shadow-lg transition-all duration-300 
                                 ${
-                                    perguntaAtiva === index
+                                    perguntaAtiva === faq.id
                                         ? "border border-azul shadow-xl"
                                         : "border border-gray-200"
                                 }
                             `}
                         >
                             <button
-                                onClick={() => abrirPergunta(index)}
+                                onClick={() => abrirPergunta(faq.id)}
                                 className="w-full flex justify-between items-center p-4 font-bold text-lg text-azul text-left focus:outline-none"
                             >
                                 {faq.pergunta}
 
                                 <div className="bg-white shadow-md rounded-full p-2 flex items-center justify-center">
                                     <FontAwesomeIcon
-                                        icon={perguntaAtiva === index ? faAngleUp : faAngleDown}
+                                        icon={perguntaAtiva === faq.id ? faAngleUp : faAngleDown}
                                         className="text-azul transition-transform duration-300"
                                     />
                                 </div>
@@ -63,12 +63,48 @@ function FAQ() {
 
                             <div
                                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                    perguntaAtiva === index
-                                        ? "max-h-40 opacity-100 px-4 pb-4"
+                                    perguntaAtiva === faq.id
+                                        ? "max-h-48 opacity-100 px-4 pb-4"
                                         : "max-h-0 opacity-0 px-4"
                                 }`}
                             >
-                                <p className="text-cinza-500 font-normal">{faq.resposta}</p>
+                                {(() => {
+                                    const r = faq.resposta || ""
+
+                                    if (r.includes('•')) {
+                                        const isStartingWithBullet = r.trim().startsWith('•')
+                                        const parts = r.split('•').map(p => p.trim()).filter(Boolean)
+                                        return (
+                                            <div className="text-cinza-500 font-normal">
+                                                {!isStartingWithBullet && parts.length > 0 && <p className="mb-2">{parts[0]}</p>}
+                                                {parts.length > (isStartingWithBullet ? 0 : 1) && (
+                                                    <ul className="list-disc pl-6">
+                                                        {parts.slice(isStartingWithBullet ? 0 : 1).map((item, i) => (
+                                                            <li key={i} className="mb-1">{item}</li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        )
+                                    }
+
+                                    if (r.includes('\n')) {
+                                        const lines = r.split(/\r?\n/).map(l => l.trim()).filter(Boolean)
+                                        if (lines.length === 1) return <p className="text-cinza-500 font-normal">{lines[0]}</p>
+                                        return (
+                                            <div className="text-cinza-500 font-normal">
+                                                <p className="mb-2">{lines[0]}</p>
+                                                <ul className="list-disc pl-6">
+                                                    {lines.slice(1).map((l, i) => (
+                                                        <li key={i} className="mb-1">{l}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )
+                                    }
+
+                                    return <p className="text-cinza-500 font-normal">{r}</p>
+                                })()}
                             </div>
                         </div>
                     ))}

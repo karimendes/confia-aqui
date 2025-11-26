@@ -4,7 +4,7 @@ import Input from "../components/ui/Input"
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons"
 import BotaoForm from "../components/ui/BotaoForm"
 import LinkTexto from "../components/ui/LinkTexto"
-import imagemLayoutForm from "../images/imagemLayoutForm.png"
+import imagemLogo from "../images/imagemLogo.png"
 import MessageBox from "../components/ui/MessageBox"
 import { cadastrarUsuario } from "../services/auth/authService"
 
@@ -122,10 +122,10 @@ function Cadastro() {
         </div>
       </div>
 
-      <div className="w-full md:w-1/2 bg-azul flex justify-center items-center">
+      <div className="w-full h-screen bg-azul md:w-1/2 flex justify-center items-center overflow-y-hidden">
         <img
-          src={imagemLayoutForm}
-          alt="Ilustração de um homem com lupa analisando um computador"
+          src={imagemLogo}
+          alt="Logo do Confia Aqui contendo marcas digitais ao redor de uma fechadura dentro de um escudo."
           className="w-60 sm:w-72 md:w-80 lg:w-96 object-contain"
         />
       </div>
