@@ -1,6 +1,6 @@
 function CardGolpePresente() {
   return (
-    <section className="flex justify-center pt-20 pb-2 px-4 bg-gray-50">
+    <section className="flex justify-center pb-2 pt-10 px-4 bg-gray-50">
       <div className="max-w-5xl mx-auto py-4 px-4 mb-4 text-left bg-gray-50">
 
            <h2 className="text-xl font-bold text-cinza-600 mb-5">
