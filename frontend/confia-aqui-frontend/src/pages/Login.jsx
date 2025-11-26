@@ -100,7 +100,7 @@ function Login() {
   <div className="w-full md:w-1/2 md:h-full flex items-center justify-center bg-azul p-8 md:p-0">
     <img
       src={imagemLogo}
-      alt="Imagem logo do Confia Aqui"
+      alt="Logo do Confia Aqui contendo marcas digitais ao redor de uma fechadura dentro de um escudo."
       className="w-60 sm:w-72 md:w-80 lg:w-96 object-contain"
     />
   </div>
