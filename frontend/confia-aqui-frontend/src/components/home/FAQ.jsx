@@ -12,8 +12,8 @@ function FAQ() {
         fetchFaqs()
     }, [])
 
-    const abrirPergunta = (index) => {
-        setPerguntaAtiva(perguntaAtiva === index ? null : index)
+    const abrirPergunta = (id) => {
+        setPerguntaAtiva(perguntaAtiva === id ? null : id)
     }
 
     return (
@@ -36,26 +36,26 @@ function FAQ() {
 
             <div className="grid md:grid-cols-2 gap-6">
                 {!loading &&
-                    faqs.map((faq, index) => (
+                    faqs.map((faq) => (
                         <div
                             key={faq.id}
                             className={`bg-white rounded-xl shadow-lg transition-all duration-300 
                                 ${
-                                    perguntaAtiva === index
+                                    perguntaAtiva === faq.id
                                         ? "border border-azul shadow-xl"
                                         : "border border-gray-200"
                                 }
                             `}
                         >
                             <button
-                                onClick={() => abrirPergunta(index)}
+                                onClick={() => abrirPergunta(faq.id)}
                                 className="w-full flex justify-between items-center p-4 font-bold text-lg text-azul text-left focus:outline-none"
                             >
                                 {faq.pergunta}
 
                                 <div className="bg-white shadow-md rounded-full p-2 flex items-center justify-center">
                                     <FontAwesomeIcon
-                                        icon={perguntaAtiva === index ? faAngleUp : faAngleDown}
+                                        icon={perguntaAtiva === faq.id ? faAngleUp : faAngleDown}
                                         className="text-azul transition-transform duration-300"
                                     />
                                 </div>
@@ -63,8 +63,8 @@ function FAQ() {
 
                             <div
                                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                    perguntaAtiva === index
-                                        ? "max-h-40 opacity-100 px-4 pb-4"
+                                    perguntaAtiva === faq.id
+                                        ? "max-h-48 opacity-100 px-4 pb-4"
                                         : "max-h-0 opacity-0 px-4"
                                 }`}
                             >
